@@ -1,0 +1,100 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="container">
+    <div class="position-static w-100 p-2 fs-3 home-head">
+        <p class="text-light"> Head </p>
+    </div>
+
+
+    <!-- Template 1 -->
+    <div class="bg-light bg-gradient rounded-2 home-body position-relative" *ngIf="first_step == true">
+        <span class="position-absolute top-0 start-50 translate-middle fs-4 rounded p-2 temp-1-body "> Your <strong> {{(PLAN_WHAT == '')? '__' : PLAN_WHAT}} </strong> Usage Planner </span>
+        <div class="position-absolute bottom-50 start-50 translate-middle form-floating top-4 mb-3 w-50">
+            <input class="form-control" type="text" id="planWhat" name="planWhat" [(ngModel)]="PLAN_WHAT" />
+            <label for="floatingInput">Plan What!</label>
+        </div>
+        <button type="button" class="btn btn-light position-absolute bottom-0 start-50 translate-middle border" (click)="showNextAmountInput()" >Let's Start</button>
+        <!-- <span class="alert alert-primary position-absolute bottom-0 start-50 translate-middle mt-1 pt-0 pb-0 mb-1">When you start type the name, After 10 seconds screen will be hidden </span> -->
+    </div>
+
+    <!-- Template 2 -->
+    <div class="bg-light bg-gradient rounded-2 home-body position-relative" *ngIf="second_step == true; Else elseTemplate">
+        <span class="position-absolute top-0 start-50 translate-middle fs-4 rounded p-2 text-light temp-2-body"> My <strong> {{PLAN_WHAT}} </strong> Usage Planner </span>
+        <div class="position-absolute bottom-50 start-50 translate-middle form-floating top-4 mb-3 w-50">
+            <input class="form-control" type="text" id="Amount" name="Amount" [(ngModel)]="Amount" />
+            <label for="floatingInput">Amount</label>
+        </div>
+        <button type="button" class="btn btn-light position-absolute bottom-0 start-50 translate-middle border" (click)="saveAmount(Amount)" >View what we have Planned</button>
+        <!-- <span class="alert alert-primary position-absolute bottom-0 start-50 translate-middle mt-1 pt-0 pb-0 mb-1">When you start type the name, After 10 seconds screen will be hidden </span> -->
+    </div>
+
+
+    <!-- Template 3 -->
+    <div class="bg-light bg-gradient rounded-2 home-body position-relative" *ngIf="third_step == true, Else elseTemplate">
+        <span class="position-absolute top-0 start-50 translate-middle fs-4 rounded p-0 temp-3-body"> My <strong> {{PLAN_WHAT}} </strong> Usage Planner </span>
+
+        <div data-bs-spy="scroll" class="w-100 row align-items-start justify-content-center planned-table">
+            <div class="col-2 text-bg-light d-flex keys-list">
+                <ul>
+                    <li class="p-2 fs-4 text-bg-contrast text-center"><strong>#</strong></li>
+                    <li *ngFor="let key of dataKeys" class="border border-end-0 border-top-0 text-capitalize mt-2 p-1 fs-5">
+                        <strong>{{key}}</strong>
+                    </li>
+                    <li class="p-2 fs-4 text-bg-contrast text-center"><strong>#</strong></li>
+                </ul>
+            </div>
+            <div class="col-8 text-bg-contrast months-list">
+                <div class="row month-row">
+                    <ul>
+                        <li *ngFor="let month of monthsFromCurrent" class="border border-start-0 border-top-0 border-bottom-0 text-center me-3 mt-2 p-1 fs-5">
+                            <strong>{{month}}</strong>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <div class="values-list">
+                        <ul>
+                            <li *ngFor="let value of dataValues" class="border border-start-0 border-end-0 border-top-0 text-center me-3 mt-2 p-1 fs-5 text-dark">
+                                {{value}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <li id="bottom-border" class="p-2 fs-4 text-bg-contrast text-center"></li>
+            </div>
+            <div class="col-1 text-bg-light percentage-list">
+                <ul>
+                    <li class="p-2 fs-4 text-bg-contrast text-center"> <strong>%</strong> </li>
+                    <li *ngFor="let percentage of percentagesSeparatly" class="border border-end-0 border-top-0 text-center mt-2 p-1 fs-5">{{percentage}}</li>
+                    <li class="p-2 fs-4 text-bg-contrast text-center"><strong>%</strong></li>
+                </ul>
+            </div>
+        </div>
+
+        <span class="alert alert-primary position-absolute bottom-0" >Remaining Amount: <strong> {{remainAmount}} Rs </strong>with <strong>{{remainPercentage}} % </strong></span>
+        <!-- <span class="alert alert-primary position-absolute bottom-0 start-50 translate-middle mt-1 pt-0 pb-0 mb-1">When you start type the name, After 10 seconds screen will be hidden </span> -->
+    </div>
+
+
+    <!--  Waiting Else Template -->
+    <ng-template #elseTemplate class="bg-light bg-gradient rounded-2 home-body position-relative">
+    </ng-template>
+
+    <div class="w-100 bg-secondary bg-gradient p-1 fs-5 home-foot rounded-2">
+        <p class="text-light"> Foot </p>
+    </div>
+</div>
+
+<!-- <table class="table top-4 mt-10 mb-3">
+  <thead>
+      <tr>
+          <th scope="col">#</th>
+          <th scope="col">%</th>
+          <th scope="col" *ngFor="let month of monthsFromCurrent">{{month}}</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let value of dataKeys">
+          <td>{{value}}</td>
+      </tr>
+  </tbody>
+</table> -->
