@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +10,7 @@ export class AppComponent {
   PLAN_WHAT = '';
   Amount = 0;
 
-  first_step = true;
-  second_step = false;
-  third_step = false;
+  step = 1;
 
   PlannedData = [];
   dataKeys = [];
@@ -27,7 +25,15 @@ export class AppComponent {
   remainAmount: any;
   remainPercentage: any;
 
+  innerWidth: any;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+      this.getScreenWidth();
+  }
+
   constructor() {
+      this.getScreenWidth();
       this.months.push('January', 'February', 'March', 'April','May','June' ,'July','August','September','October','November','Decemeber');
       // console.log();
       this.months.forEach((value, key ) => {
@@ -40,15 +46,17 @@ export class AppComponent {
       console.log(this.monthsFromCurrent);
   }
 
+  getScreenWidth() {
+    this.innerWidth = window.innerWidth;
+    // console.log(this.innerWidth);
+  }
   showNextAmountInput() {
-      this.first_step = false;
-      this.second_step = true;
+      this.step = 2;
   }
 
   saveAmount(data: any) {
       this.Amount = data;
-      this.second_step = false;
-      this.third_step = true;
+      this.step = 3;
       this.createAPlan();
   }
   createAPlan() {
@@ -85,10 +93,10 @@ export class AppComponent {
       this.PlannedData['causes']['given_away'] = given_away;
       this.PlannedData['causes']['parent_given'] = parent_given;
 
-      console.log(this.PlannedData);
+      // console.log(this.PlannedData);
       this.dataKeys = Object.keys(this.PlannedData['causes']);
       this.dataValues = Object.values(this.PlannedData['causes']);
-      console.log(this.dataValues);
+      // console.log(this.dataValues);
 
       /** Getting Total Amount Used */
       this.getUnPlannedAmount();
@@ -99,7 +107,7 @@ export class AppComponent {
       /** Getting Unplanned Percentage */
       this.getUnPlannedPercentage();
 
-      console.log(this.PlannedData);
+      // console.log(this.PlannedData);
   }
 
   getUnPlannedAmount() {

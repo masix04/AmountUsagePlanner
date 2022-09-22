@@ -1,10 +1,13 @@
 .home-body {
     height: 700px;
 }
+.home-body-mob {
+  height: 570px;
+}
+
 .container .home-head {
     height: 80px;
     background-color: rgb(128, 128, 240);
-    border-radius: 10px;
 }
 .container .home-foot {
     height: 60px;
@@ -28,15 +31,17 @@
     width: max-content;
     box-shadow: rgb(189, 187, 187) 2px 2px 2px 2px;
 }
-.planned-table {
+.planned-table,.planned-table-mob {
     height:inherit;
     padding-top: 80px;
+}
+.planned-table-mob {
+  margin: 0 auto;
 }
 
 .months-list {
     height: 52px;
     margin-left: 5px;
-    /* width: max-content; */
 }
 .months-list .month-row ul {
     display: flex;
@@ -45,10 +50,38 @@
 .month-row ul li {
     width: max-content;
 }
+.ht-40 {
+  height: 40px;
+}
+.months-list-mob {
+  height: 52px;
+  margin-left: 5px;
+  width: 25%;
+  border-top-right-radius: 5px;
+}
+.months-list-mob .month-row-mob ul {
+  display: flex;
+  margin-bottom:0;
+}
+.month-row-mob ul li {
+  width: max-content;
+  height: 10%;
+}
 
 .keys-list {
   height: 50px;
-
+}
+.keys-list-mob {
+    padding-right: 0;
+}
+.keys-list-mob ul {
+    width: 50%;
+}
+.key-item-mob {
+    overflow-x: scroll;
+}
+.key-item-mob,.month-item-mob,.value-item-mob {
+    font-size: 12px;
 }
 .percentage-list {
   height: 50px;
@@ -70,6 +103,9 @@
 .values-list ul li {
     width: 110px;
 }
+.values-list-mob {
+    padding-left: 0;
+}
 .text-bg-contrast {
     color: white;
     background-color: rgb(63, 145, 228);
@@ -78,6 +114,15 @@
     height: 52px;
     margin-top: -22px;
     margin-right: -13px;
+}
+.remain-not-spend {
+    margin-bottom: 10px;
+    background-color: rgb(125, 155, 202);
+    width: max-content;
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+    border: 1px blue solid;
 }
 @media screen and (min-width:320px) and (max-width:575px) {
 
