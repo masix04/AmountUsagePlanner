@@ -29,11 +29,11 @@
 
 
     <!-- Template 3 -->
-    <div class="bg-light bg-gradient rounded-2 position-relative" [ngClass]="(innerWidth > 575)? 'home-body': 'home-body-mob'" *ngIf="step == 3, Else elseTemplate">
+    <div class="bg-light bg-gradient rounded-2 position-relative" [ngClass]="(innerWidth > 575)? 'home-body-step-3': 'home-body-mob'" *ngIf="step == 3, Else elseTemplate">
         <span class="position-absolute top-0 start-50 translate-middle fs-4 rounded p-1 temp-3-body"> My <strong> {{PLAN_WHAT}} </strong> Usage Planner </span>
 
         <!-- For Tablets and Desktop-->
-        <div *ngIf="innerWidth > 575" class="w-100 row align-items-start justify-content-center planned-table">
+        <div *ngIf="innerWidth > 757" class="w-100 row align-items-start justify-content-center planned-table">
             <div class="col-2 text-bg-light d-flex keys-list">
                 <ul>
                     <li class="p-2 fs-4 text-bg-contrast text-center"><strong>#</strong></li>
@@ -65,44 +65,109 @@
             <div class="col-1 text-bg-light percentage-list">
                 <ul>
                     <li class="p-2 fs-4 text-bg-contrast text-center"> <strong>%</strong> </li>
-                    <li *ngFor="let percentage of percentagesSeparatly" class="border border-end-0 border-top-0 border-primary text-center mt-2 p-1 fs-5">{{percentage}}</li>
+                    <li *ngFor="let percentage of percentagesSeparatly" class="border border-top-0 border-primary text-center mt-2 p-1 fs-5">{{percentage}}</li>
                     <li class="p-2 fs-4 text-bg-contrast text-center"><strong>%</strong></li>
                 </ul>
             </div>
 
             <span class="remain-not-spend bottom-0 start-50 position-absolute translate-middle" >Remaining Amount: <strong> {{remainAmount}} Rs </strong>with <strong>{{remainPercentage}} % </strong></span>
         </div>
+        <!-- IN PROGRESS ---   -->
+        <!-- For Tablets -->
+        <div *ngIf="innerWidth > 575 && innerWidth < 757" class="w-100 row planned-table-tab">
 
-        <!-- For Mobile -->
-        <div *ngIf="innerWidth < 576" class="w-100 row planned-table-mob">
-          <!-- <div > -->
-              <ul class="text-bg-light keys-list-mob w-50">
-                  <li class="p-2 fs-6 text-bg-contrast text-center"><strong>#</strong></li>
-                  <li *ngFor="let key of dataKeys" class="border border-top-0 border-primary text-capitalize mt-2 p-1 key-item-mob">
-                      <strong>{{key}}</strong>
-                  </li>
-                  <li class="p-2 fs-6 text-bg-contrast text-center"><strong>#</strong></li>
-              </ul>
+          <ul class="text-bg-light keys-list-tab"> <!-- Width = 30% -->
+              <li class="p-2 fs-6 text-bg-contrast text-center"><strong>#</strong></li>
+              <li *ngFor="let key of dataKeys" class="border border-top-0 border-primary text-capitalize mt-2 p-1 key-item-tab">
+                  <strong>{{key}}</strong>
+              </li>
+              <li class="p-2 fs-6 text-bg-contrast text-center"><strong>#</strong></li>
+          </ul>
 
-              <ul class="values-list-mob w-50">
-                  <li class="p-2 fs-6 text-bg-contrast month-item-mob text-center">
-                      <strong>{{monthsFromCurrent[0]}}</strong>
-                  </li>
-                  <li *ngFor="let value of dataValues" class="border border-top-0 border-primary text-center mt-2 p-1 value-item-mob">
-                      {{value}} Rs
-                  </li>
-                  <li class="p-2 text-bg-contrast month-item-mob ht-40"></li>
-              </ul>
+          <ul class="values-list-tab"><!-- width = 70% -->
+              <li class="p-2 fs-6 text-bg-contrast month-item-tab text-center">
+                  <strong>{{monthsFromCurrent[0]}}</strong>
+              </li>
+              <li class="p-2 fs-6 text-bg-contrast month-item-tab text-center">
+                  <strong>{{monthsFromCurrent[1]}}</strong>
+              </li>
+              <li *ngFor="let value of dataValues" class="border border-top-0 border-primary text-center mt-2 p-1 value-item-tab">
+                  {{value}} Rs
+              </li>
+              <li class="p-2 text-bg-contrast ht-40"></li>
+          </ul>
 
           <!-- Hidden Percentage List - not necessory Data -->
-        <span class="remain-not-spend position-absolute translate-middle bottom-0 start-50" >Remaining Amount: <strong> {{remainAmount}} Rs </strong>with <strong>{{remainPercentage}} % </strong></span>
+          <span class="remain-not-spend position-absolute translate-middle bottom-0 start-50">Remaining Amount: <strong> {{remainAmount}} Rs </strong>with <strong>{{remainPercentage}} % </strong></span>
 
       </div>
+
+        <!-- For Mobile -->
+        <div *ngIf="innerWidth < 576" class="w-100 row planned-table-tab">
+
+            <ul class="text-bg-light keys-list-mob w-50">
+                <li class="p-2 fs-6 text-bg-contrast text-center"><strong>#</strong></li>
+                <li *ngFor="let key of dataKeys" class="border border-top-0 border-primary text-capitalize mt-2 p-1 key-item-mob">
+                    <strong>{{key}}</strong>
+                </li>
+                <li class="p-2 fs-6 text-bg-contrast text-center"><strong>#</strong></li>
+            </ul>
+
+            <ul class="values-list-mob w-50">
+                <li class="p-2 fs-6 text-bg-contrast month-item-mob text-center">
+                    <strong>{{monthsFromCurrent[0]}}</strong>
+                </li>
+                <li *ngFor="let value of dataValues" class="border border-top-0 border-primary text-center mt-2 p-1 value-item-mob">
+                    {{value}} Rs
+                </li>
+                <li class="p-2 text-bg-contrast month-item-mob ht-40"></li>
+            </ul>
+
+            <!-- Hidden Percentage List - not necessory Data -->
+            <span class="remain-not-spend position-absolute translate-middle bottom-0 start-50">Remaining Amount: <strong> {{remainAmount}} Rs </strong>with <strong>{{remainPercentage}} % </strong></span>
+
+        </div>
+
+
+
     </div>
 
     <!--  Waiting Else Template -->
     <ng-template #elseTemplate class="bg-light bg-gradient rounded-2 home-body position-relative">
     </ng-template>
+
+      <!-- Graph -->
+      <div>
+          <div *ngIf="innerWidth > 757" class="text-center mb-3 planned-graph">
+              <fusioncharts
+                  width="1300"
+                  height="700"
+                  type="mscombi2d"
+                  dataFormat="json"
+                  [dataSource]=dataSource>
+              </fusioncharts>
+          </div>
+
+          <div *ngIf="innerWidth > 575 && innerWidth < 757" class="text-center mb-3 planned-graph">
+              <fusioncharts
+                  width="550"
+                  height="500"
+                  type="mscombi2d"
+                  dataFormat="json"
+                  [dataSource]=dataSource>
+              </fusioncharts>
+          </div>
+
+          <div *ngIf="innerWidth < 576" class="text-center mb-3 planned-graph">
+              <fusioncharts
+                  width="330"
+                  height="400"
+                  type="mscombi2d"
+                  dataFormat="json"
+                  [dataSource]=dataSource>
+              </fusioncharts>
+          </div>
+      </div>
 
     <div class="w-100 bg-secondary bg-gradient pt-2 fs-5 home-foot rounded-top text-center">
         <p class="text-light"> Foot </p>

@@ -1,8 +1,11 @@
 .home-body {
-    height: 700px;
+    height: 600px;
+}
+.home-body-step-3 {
+    height: 765px;
 }
 .home-body-mob {
-  height: 570px;
+  height: max-content;
 }
 
 .container .home-head {
@@ -31,13 +34,21 @@
     width: max-content;
     box-shadow: rgb(189, 187, 187) 2px 2px 2px 2px;
 }
-.planned-table,.planned-table-mob {
+
+.planned-table-tab {
+    --bs-gutter-x: 0;
+}
+.planned-table,.planned-table-mob,.planned-table-tab {
     height:inherit;
     padding-top: 80px;
 }
 .planned-table-mob {
   margin: 0 auto;
 }
+
+/* .planned-graph {
+    height: 765px;
+} */
 
 .months-list {
     height: 52px;
@@ -67,7 +78,10 @@
   width: max-content;
   height: 10%;
 }
-
+.month-item-tab {
+    width: 50%;
+    float: left;
+}
 .keys-list {
   height: 50px;
 }
@@ -77,11 +91,29 @@
 .keys-list-mob ul {
     width: 50%;
 }
+.keys-list-tab {
+    padding-right: 0;
+    width: 30%;
+}
+.keys-list-tab ul {
+    width: 30%;
+}
+/* .keys-list-mob ul {
+    width: 25%;
+} */
+
 .key-item-mob {
     overflow-x: scroll;
 }
 .key-item-mob,.month-item-mob,.value-item-mob {
     font-size: 12px;
+}
+.key-item-tab,.month-item-tab,.value-item-tab {
+    font-size: 13px;
+}
+.keys-list-tab {
+    padding-left: 0;
+    overflow-x: scroll;
 }
 .percentage-list {
   height: 50px;
@@ -106,6 +138,11 @@
 .values-list-mob {
     padding-left: 0;
 }
+.values-list-tab {
+    padding-left: 0;
+    padding-right: 0;
+    width: 70%;
+}
 .text-bg-contrast {
     color: white;
     background-color: rgb(63, 145, 228);
@@ -124,6 +161,8 @@
     border-radius: 5px;
     border: 1px blue solid;
 }
-@media screen and (min-width:320px) and (max-width:575px) {
 
+
+.fusion-chart {
+    width: 800px;
 }
