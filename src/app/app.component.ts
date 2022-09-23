@@ -1,4 +1,5 @@
 import { Component, HostListener, OnChanges, SimpleChanges } from '@angular/core';
+import { HelperService } from './helperService/helper.service';
 
 @Component({
   selector: 'app-root',
@@ -29,14 +30,17 @@ export class AppComponent implements OnChanges {
 
   dataSource: any;
 
+  KEY_SELECTED: any;
+  SPENT_AMOUNT: any;
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
       this.getScreenWidth();
   }
   ngOnChanges(changes: SimpleChanges): void {
-    this.createAPlan();
+  //   this.createAPlan();
   }
-  constructor() {
+  constructor(public helperService: HelperService) {
       this.getScreenWidth();
       this.months.push('January', 'February', 'March', 'April','May','June' ,'July','August','September','October','November','Decemeber');
       // console.log();
@@ -63,6 +67,18 @@ export class AppComponent implements OnChanges {
       this.step = 3;
       this.createAPlan();
   }
+
+  saveToDatabase() {
+      // let url = "http://localhost/__practice_Angular_CONCEPTS/AmountUsagePlanner/amount-usage-planner-php/controllers/ApiController.php/"+"save-plan-values";
+      // return this.http.get(url);
+      this.helperService.saveCreatedPlan(this.plannedPercentages).subscribe((response: any) => {
+
+      },
+      (err :any) => {
+          console.log(err);
+      });
+  }
+
   createAPlan() {
       // const make_slaughter_key = 'slaughter_'+(new Date()).getFullYear();
       this.plannedPercentages.push(
@@ -77,6 +93,9 @@ export class AppComponent implements OnChanges {
           { 'parent_given' : 15 },
           { 'on_my_self' : 5 }
       );
+
+      this.saveToDatabase();
+
       /** Hard-coated Chart  */
       this.dataSource = {
         chart: {
@@ -218,4 +237,12 @@ export class AppComponent implements OnChanges {
       this.PlannedData['months'] = this.monthsFromCurrent;
   }
 
+  /** Spent Amount Plan  */
+  saveSpentAmount() {
+      // console.log(this.SPENT_AMOUNT);
+      // console.log(this.KEY_SELECTED);
+      if(this.KEY_SELECTED == '') {
+          console.log('No Item Selected.');
+      }
+  }
 }

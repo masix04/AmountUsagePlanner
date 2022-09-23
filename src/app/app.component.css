@@ -166,3 +166,27 @@
 .fusion-chart {
     width: 800px;
 }
+
+
+.used-panel {
+    height: 300px;
+    width: 95%;
+    margin: 0 auto;
+}
+
+.data-fieldset {
+    border: 1px solid dodgerblue;
+    border-radius: 5px;
+}
+.data-fieldset select, div {
+    margin: 3px auto;
+}
+.data-fieldset .submit-data {
+    padding: 5px 10px;
+}
+.data-fieldset .submit-data:active {
+    background-color: rgb(57, 104, 57);
+}
+.data-legend {
+    font-weight: 600;
+}

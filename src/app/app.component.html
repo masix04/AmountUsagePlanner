@@ -1,12 +1,12 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div class="container">
+<div class="container bg-light bg-gradient rounded-2 ">
     <div class="position-static w-100 pt-3 fs-3 home-head text-center rounded-bottom">
         <p class="text-light"> Head </p>
     </div>
 
 
     <!-- Template 1 -->
-    <div class="bg-light bg-gradient rounded-2 home-body position-relative" *ngIf="step == 1">
+    <div class="home-body position-relative" *ngIf="step == 1">
         <span class="position-absolute top-0 start-50 translate-middle fs-4 rounded p-2 temp-1-body "> Your <strong> {{(PLAN_WHAT == '')? '__' : PLAN_WHAT}} </strong> Usage Planner </span>
         <div class="position-absolute bottom-50 start-50 translate-middle form-floating top-4 mb-3 w-50">
             <input class="form-control" type="text" id="planWhat" name="planWhat" [(ngModel)]="PLAN_WHAT" />
@@ -17,7 +17,7 @@
     </div>
 
     <!-- Template 2 -->
-    <div class="bg-light bg-gradient rounded-2 home-body position-relative" *ngIf="step == 2; Else elseTemplate">
+    <div class="home-body position-relative" *ngIf="step == 2; Else elseTemplate">
         <span class="position-absolute top-0 start-50 translate-middle fs-4 rounded p-2 text-light temp-2-body"> My <strong> {{PLAN_WHAT}} </strong> Usage Planner </span>
         <div class="position-absolute bottom-50 start-50 translate-middle form-floating top-4 mb-3 w-50">
             <input class="form-control" type="text" id="Amount" name="Amount" [(ngModel)]="Amount" />
@@ -29,7 +29,7 @@
 
 
     <!-- Template 3 -->
-    <div class="bg-light bg-gradient rounded-2 position-relative" [ngClass]="(innerWidth > 575)? 'home-body-step-3': 'home-body-mob'" *ngIf="step == 3, Else elseTemplate">
+    <div class="position-relative" [ngClass]="(innerWidth > 575)? 'home-body-step-3': 'home-body-mob'" *ngIf="step == 3, Else elseTemplate">
         <span class="position-absolute top-0 start-50 translate-middle fs-4 rounded p-1 temp-3-body"> My <strong> {{PLAN_WHAT}} </strong> Usage Planner </span>
 
         <!-- For Tablets and Desktop-->
@@ -133,11 +133,27 @@
     </div>
 
     <!--  Waiting Else Template -->
-    <ng-template #elseTemplate class="bg-light bg-gradient rounded-2 home-body position-relative">
+    <ng-template #elseTemplate class="home-body position-relative">
     </ng-template>
 
+      <!-- Store Used Amount -->
+      <div *ngIf="step == 3; else elseTemplate" class="text-center used-panel"><!-- Width 95% -->
+        <fieldset class="data-fieldset">
+            <legend class="data-legend text-bg-contrast rounded-2 p-1"> Submit Spent Amount </legend>
+            <select [(ngModel)]="KEY_SELECTED" class="form-select w-50 text-center">
+                <option selected value="">Select the item</option>
+                <option *ngFor="let key of dataKeys" value="{{key}}">{{key}}</option>
+            </select>
+            <div class="form-floating top-4 mb-3 w-50">
+                <input class="form-control" type="number" name="spent-amount" id="spent-amount" [(ngModel)]="SPENT_AMOUNT" />
+                <label for="floatingInput">Spent Amount</label>
+            </div>
+            <input class="submit-data btn btn-dark border" type="submit" (click)="saveSpentAmount()" />
+        </fieldset>
+      </div>
+
       <!-- Graph -->
-      <div>
+      <div *ngIf="step == 3; else elseTemplate">
           <div *ngIf="innerWidth > 757" class="text-center mb-3 planned-graph">
               <fusioncharts
                   width="1300"
