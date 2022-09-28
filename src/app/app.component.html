@@ -33,7 +33,7 @@
     <!-- Template 3 -->
     <div class="position-relative" [ngClass]="(innerWidth > 575)? 'home-body-step-3': 'home-body-mob'" *ngIf="step == 3, Else elseTemplate">
         <span class="position-absolute top-0 start-50 translate-middle fs-4 rounded p-1 temp-3-body"> My <strong> {{PLAN_WHAT}} </strong> Usage Planner </span>
-
+        <span style="cursor:pointer;"><img src="/assets/images/back-arrow-solid-32.png"/></span>
         <!-- For Tablets and Desktop-->
         <div *ngIf="innerWidth > 757" class="w-100 row align-items-start justify-content-center planned-table">
             <div class="col-2 text-bg-light d-flex keys-list">
@@ -126,7 +126,7 @@
             </ul>
 
             <!-- Hidden Percentage List - not necessory Data -->
-            <span class="remain-not-spend position-absolute translate-middle bottom-0 start-50">Remaining Amount: <strong> {{remainAmount}} Rs </strong>with <strong>{{remainPercentage}} % </strong></span>
+            <span class="remain-not-spend-575 position-absolute translate-middle bottom-0 start-50">Remaining Amount: <strong> {{remainAmount}} Rs </strong>with <strong>{{remainPercentage}} % </strong></span>
 
         </div>
 
@@ -138,25 +138,25 @@
     <ng-template #elseTemplate class="home-body position-relative">
     </ng-template>
 
-      <!-- Store Used Amount -->
-      <div *ngIf="step == 3; else elseTemplate" class="text-center used-panel"><!-- Width 95% -->
-        <fieldset class="data-fieldset">
-            <legend class="data-legend text-bg-contrast rounded-2 p-1"> Submit Spent Amount </legend>
-            <select [(ngModel)]="KEY_SELECTED" class="form-select w-50 text-center">
-                <option selected value="">Select the item</option>
-                <option *ngFor="let key of dataKeys; let i=index" value="{{i+1}}">{{key}}</option>
-            </select>
-            <div class="form-floating top-4 mb-3 w-50">
-                <input class="form-control" type="number" name="spent-amount" id="spent-amount" [(ngModel)]="SPENT_AMOUNT" />
-                <label for="floatingInput">Spent Amount</label>
-            </div>
-            <input class="submit-data btn btn-dark border" type="submit" (click)="saveSpentAmount()" />
-            <!-- <input class="submit-data btn btn-secondary border" type="submit" name="View" (click)="getPlanned()" /> -->
-        </fieldset>
-      </div>
+    <!-- Store Used Amount -->
+    <div *ngIf="step == 3; else elseTemplate" class="text-center used-panel" [ngClass]="(innerWidth < 576)? 'mt-5': ''"><!-- Width 95% -->
+      <fieldset class="data-fieldset">
+          <legend class="data-legend text-bg-contrast rounded-2 p-1"> Submit Spent Amount </legend>
+          <select [(ngModel)]="KEY_SELECTED" class="form-select w-50 text-center">
+              <option selected value="">Select the item</option>
+              <option *ngFor="let key of dataKeys; let i=index" value="{{i+1}}">{{key}}</option>
+          </select>
+          <div class="form-floating top-4 mb-3 w-50">
+              <input class="form-control" type="number" name="spent-amount" id="spent-amount" [(ngModel)]="SPENT_AMOUNT" />
+              <label for="floatingInput">Spent Amount</label>
+          </div>
+          <button class="submit-data btn btn-dark border" (click)="saveSpentAmount()" > Save </button>
+          <!-- <input class="submit-data btn btn-secondary border" type="submit" name="View" (click)="getPlanned()" /> -->
+      </fieldset>
+    </div>
 
       <div *ngIf="step == 4" class="text-center used-panel mt-3"><!-- Width 95% -->
-        <span > Your <strong> {{(Amount == '')? '__' : Amount}} </strong> Amount</span>
+        <span> Your <strong> {{(Amount == '')? '__' : Amount}} </strong> Amount</span>
         <fieldset class="data-fieldset">
             <legend class="data-legend text-bg-contrast rounded-2 p-1"> Submit Spent Amount </legend>
             <select [(ngModel)]="KEY_SELECTED" class="form-select w-50 text-center">
@@ -167,11 +167,45 @@
                 <input class="form-control" type="number" name="spent-amount" id="spent-amount" [(ngModel)]="SPENT_AMOUNT" />
                 <label for="floatingInput">Spent Amount</label>
             </div>
-            <input class="submit-data btn btn-dark border" type="submit" (click)="saveSpentAmount()" />
-            <!-- <input class="submit-data btn btn-secondary border" type="submit" name="View" (click)="getPlanned()" /> -->
+            <button class="submit-data btn btn-dark border" (click)="saveSpentAmount()" > Save </button>
+            <button *ngIf="visualize == false" class="submit-data btn btn-success ms-2 border" (click)="displayChart()" > Visualize </button>
+            <button *ngIf="visualize == true" class="submit-data btn btn-info ms-2 border" (click)="hideChart()" > Hide </button>
         </fieldset>
-      </div>
+        <button class="submit-data btn btn-light mt-4 border" (click)="moveToPlannedChart()" > View Planned Amount </button>
 
+      </div>
+      <!-- Graph -->
+      <div *ngIf="visualize == true">
+        <div *ngIf="innerWidth > 757" class="text-center mb-3 planned-graph">
+            <fusioncharts
+                width="1300"
+                height="700"
+                type="mscombi2d"
+                dataFormat="json"
+                [dataSource]=dataSource>
+            </fusioncharts>
+        </div>
+
+        <div *ngIf="innerWidth > 575 && innerWidth < 757" class="text-center mb-3 planned-graph">
+            <fusioncharts
+                width="550"
+                height="500"
+                type="mscombi2d"
+                dataFormat="json"
+                [dataSource]=dataSource>
+            </fusioncharts>
+        </div>
+
+        <div *ngIf="innerWidth < 576" class="text-center mb-3 planned-graph">
+            <fusioncharts
+                width="330"
+                height="400"
+                type="mscombi2d"
+                dataFormat="json"
+                [dataSource]=dataSource>
+            </fusioncharts>
+        </div>
+    </div>
       <!-- Graph -->
       <div *ngIf="step == 3; else elseTemplate">
           <div *ngIf="innerWidth > 757" class="text-center mb-3 planned-graph">

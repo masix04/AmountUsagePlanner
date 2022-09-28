@@ -34,6 +34,8 @@ export class AppComponent implements OnChanges {
   KEY_SELECTED: any;
   SPENT_AMOUNT: any;
 
+  visualize = false;
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
       this.getScreenWidth();
@@ -201,6 +203,21 @@ export class AppComponent implements OnChanges {
       });
 
       this.AmountAgainstPercentages();
+  }
+
+/** Toggle */
+  displayChart() {
+      this.visualize = true;
+      this.createChart();
+  }
+  hideChart() {
+      this.visualize = false;
+  }
+
+  /** Move to Planned Chart */
+  moveToPlannedChart() {
+      this.step = 3;
+      this.createAPlan();;
   }
 
   createChart() {
