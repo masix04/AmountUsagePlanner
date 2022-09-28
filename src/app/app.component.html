@@ -11,6 +11,8 @@
         <div class="position-absolute bottom-50 start-50 translate-middle form-floating top-4 mb-3 w-50">
             <input class="form-control" type="text" id="planWhat" name="planWhat" [(ngModel)]="PLAN_WHAT" />
             <label for="floatingInput">Plan What!</label>
+            <button type="button" class="btn btn-secondary mt-1 start-50 border"
+              style="font-size:12px; padding:5px;" (click)="addUsedAmount()" >Save Used Amount</button>
         </div>
         <button type="button" class="btn btn-light position-absolute bottom-0 start-50 translate-middle border" (click)="showNextAmountInput()" >Let's Start</button>
         <!-- <span class="alert alert-primary position-absolute bottom-0 start-50 translate-middle mt-1 pt-0 pb-0 mb-1">When you start type the name, After 10 seconds screen will be hidden </span> -->
@@ -142,13 +144,31 @@
             <legend class="data-legend text-bg-contrast rounded-2 p-1"> Submit Spent Amount </legend>
             <select [(ngModel)]="KEY_SELECTED" class="form-select w-50 text-center">
                 <option selected value="">Select the item</option>
-                <option *ngFor="let key of dataKeys" value="{{key}}">{{key}}</option>
+                <option *ngFor="let key of dataKeys; let i=index" value="{{i+1}}">{{key}}</option>
             </select>
             <div class="form-floating top-4 mb-3 w-50">
                 <input class="form-control" type="number" name="spent-amount" id="spent-amount" [(ngModel)]="SPENT_AMOUNT" />
                 <label for="floatingInput">Spent Amount</label>
             </div>
             <input class="submit-data btn btn-dark border" type="submit" (click)="saveSpentAmount()" />
+            <!-- <input class="submit-data btn btn-secondary border" type="submit" name="View" (click)="getPlanned()" /> -->
+        </fieldset>
+      </div>
+
+      <div *ngIf="step == 4" class="text-center used-panel mt-3"><!-- Width 95% -->
+        <span > Your <strong> {{(Amount == '')? '__' : Amount}} </strong> Amount</span>
+        <fieldset class="data-fieldset">
+            <legend class="data-legend text-bg-contrast rounded-2 p-1"> Submit Spent Amount </legend>
+            <select [(ngModel)]="KEY_SELECTED" class="form-select w-50 text-center">
+                <option selected value="">Select the item</option>
+                <option *ngFor="let key of dataKeys; let i=index" value="{{i+1}}">{{key}}</option>
+            </select>
+            <div class="form-floating top-4 mb-3 w-50">
+                <input class="form-control" type="number" name="spent-amount" id="spent-amount" [(ngModel)]="SPENT_AMOUNT" />
+                <label for="floatingInput">Spent Amount</label>
+            </div>
+            <input class="submit-data btn btn-dark border" type="submit" (click)="saveSpentAmount()" />
+            <!-- <input class="submit-data btn btn-secondary border" type="submit" name="View" (click)="getPlanned()" /> -->
         </fieldset>
       </div>
 
