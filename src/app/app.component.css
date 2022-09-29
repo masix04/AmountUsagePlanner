@@ -10,10 +10,16 @@
 
 .container .home-head {
     height: 80px;
-    background-color: rgb(128, 128, 240);
+    background: linear-gradient(#eee, rgb(19, 82, 141));
+    background: -webkit-linear-gradient(rgb(28, 100, 168), rgb(44, 133, 218), rgb(110, 174, 211));
+}
+.container .home-head p {
+    font-family: Arial, Verdana, Geneva, Tahoma, sans-serif;
 }
 .container .home-foot {
-    height: 60px;
+    height: max-content;
+    padding-bottom: 10px;
+    background: -webkit-linear-gradient(rgb(231, 228, 228), rgba(141, 138, 138, 0.966));
 }
 .bg-body {
     margin-top: 50px;
