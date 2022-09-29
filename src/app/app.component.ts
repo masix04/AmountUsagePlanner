@@ -34,7 +34,15 @@ export class AppComponent implements OnChanges {
   KEY_SELECTED: any;
   SPENT_AMOUNT: any;
 
-  visualize = false;
+  visualizeChart = false;
+  visualizeTable = false;
+
+  usedData: any;
+  used_remain_percentages: any;
+  used_remain_amounts: any;
+
+  percent_display_selected = true; /** By-default Percentage SWITCH Icon Will be Shown, While Data in Amounts Shows */
+  amount_display_selected = false;
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -68,7 +76,12 @@ export class AppComponent implements OnChanges {
         { 'parent_given' : 15 },
         { 'on_my_self' : 5 }
     );
-
+    this.used_remain_percentages = {
+        'percentages' : [],
+    };
+    this.used_remain_amounts = {
+        'amounts' : [],
+    };
   }
 
   getScreenWidth() {
@@ -84,11 +97,36 @@ export class AppComponent implements OnChanges {
       this.step = 3;
       this.createAPlan('new');
   }
+
+    /**   -------BELOW HTTP Requests------- */
   getPlanned() {
       return this.http.get(this.helperService.BASE_URL + 'getPlanned.php').subscribe({
           next: (response) => console.log(response),
           error: (error) => console.log(error)
       });
+  }
+  getUsed() {
+      return this.http.get(this.helperService.BASE_URL + 'getUsed.php').subscribe({
+          next: (response) => {
+            this.usedData = response['AmountPlanner'].Used.data;
+            // console.log(this.usedData);
+            this.separateUsedAmountAndPercentage();
+          },
+          error: (error) => console.log(error)
+      });
+  }
+  addUsedAmount() {
+      this.step = 4;
+
+      this.http.get(this.helperService.BASE_URL + 'getters.php?type=amount').subscribe({
+          next: (response) => {
+            // console.log(response['AmountPlanner'].Planned[0].value);
+            this.Amount = response['AmountPlanner'].Planned[0].value;
+          },
+          error: (error) => console.log(error)
+      });
+
+      this.AmountAgainstPercentages();
   }
   saveToDatabase(type = 'planned') {
       let url :any; let data: any;
@@ -109,6 +147,7 @@ export class AppComponent implements OnChanges {
         }
       );
   }
+    /**   ----- ABOVE HTTP Requests ------- */
 
   createAPlan(amountType = 'new') {
       // const make_slaughter_key = 'slaughter_'+(new Date()).getFullYear();
@@ -188,40 +227,65 @@ export class AppComponent implements OnChanges {
     this.PlannedData['causes']['parent_given'] = parent_given;
     this.PlannedData['causes']['on_my_self'] = on_my_self;
 
+    this.extractKeysAndValues(this.PlannedData['causes'], 'planned');
+  }
+
+  /** Get Data Values and Keys */
+
+  extractKeysAndValues(data: any, amount_type='planned') {
+    this.dataValues = [];
     // console.log(this.PlannedData);
-    this.dataKeys = Object.keys(this.PlannedData['causes']);
-    this.dataValues = Object.values(this.PlannedData['causes']);
+    if(amount_type == 'planned') {
+      this.dataKeys = Object.keys(data);
+      // console.log(this.dataKeys);
+    }
+    this.dataValues = Object.values(data);
     // console.log(this.dataValues);
   }
 
-  addUsedAmount() {
-      this.step = 4;
-
-      this.http.get(this.helperService.BASE_URL + 'getters.php?type=amount').subscribe({
-          next: (response) => {
-            console.log(response['AmountPlanner'].Planned[0].value);
-            this.Amount = response['AmountPlanner'].Planned[0].value;
-          },
-          error: (error) => console.log(error)
-      });
-
-      this.AmountAgainstPercentages();
-  }
-
-/** Toggle */
+/** Toggle Chart Switches */
   displayChart() {
-      this.visualize = true;
+      this.visualizeChart = true;
       this.createChart();
   }
   hideChart() {
-      this.visualize = false;
+      this.visualizeChart = false;
+  }
+
+  /** Toggle Chart Switches */
+  displayTable() {
+      this.visualizeTable = true;
+      this.createTable('used');
+  }
+  hideTable() {
+      this.visualizeTable = false;
+  }
+
+  /** Toggle SWITCH To Display Data in Either Percentages OR Amounts */
+  displayTableData_Percentages() {
+      this.amount_display_selected = true;
+      this.percent_display_selected = false;
+      this.extractKeysAndValues(this.used_remain_percentages['percentages'],'used');
+  }
+  displayTableData_Amounts() {
+      this.percent_display_selected = true;
+      this.amount_display_selected = false;
+      this.extractKeysAndValues(this.used_remain_amounts['amounts'],'used');
   }
 
   /** Move to Planned Chart */
   moveToPlannedChart() {
       this.step = 3;
-      this.visualize = false; /** So 2 Charts will not show */
+      this.visualizeChart = false; /** So Chart will not show */
+      this.visualizeTable = false; /** So Table Will be Hide */
       this.createAPlan('already_stored'); /** Means => Amount has already been stored, So no need to send Request Again */
+  }
+
+  /** Navigation to Start */
+  startAllOver() {
+      this.step = 1;
+      this.visualizeChart = false;
+      this.visualizeTable = false;
   }
 
   createChart() {
@@ -304,5 +368,20 @@ export class AppComponent implements OnChanges {
       ]
       // data: this.plannedPercentages
     };
+  }
+  createTable(table_amount_type = "new") {
+      if(table_amount_type == "used") {
+          this.getUsed();
+      }
+  }
+  /** Separated Percentages & Amounts for New Feature To Provide User more Choices to Visualize Data */
+  separateUsedAmountAndPercentage() {
+      this.usedData.forEach((value: any, key: any) => {
+          // console.log(value);
+          this.used_remain_percentages['percentages'].push({'id': value.id,'used' : value.used_percentage , 'remain' : value.remaining_percentage});
+          this.used_remain_amounts['amounts'].push({'id': value.id,'used' : value.used_amount , 'remain' : ( (value.planned_percentage / 100) * this.Amount ) - value.used_amount });
+      });
+      // console.log(this.used_remain_amounts);
+      // console.log(this.used_remain_percentages);
   }
 }

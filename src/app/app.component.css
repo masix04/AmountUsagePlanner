@@ -41,7 +41,13 @@
     box-shadow: rgb(189, 187, 187) 2px 2px 2px 2px;
 }
 
-.planned-table-tab {
+.convert-table-mob {
+    height: max-content;
+    margin-top: 20px;
+    left: 90% !important;
+    top: 10% !important;
+}
+.planned-table-tab, .convert-table-mob {
     --bs-gutter-x: 0;
 }
 .planned-table,.planned-table-mob,.planned-table-tab {
@@ -111,7 +117,7 @@
 .key-item-mob {
     overflow-x: scroll;
 }
-.key-item-mob,.month-item-mob,.value-item-mob {
+.key-item-mob,.month-item-mob,.value-item-mob, .used-value-item-mob {
     font-size: 12px;
 }
 .key-item-tab,.month-item-tab,.value-item-tab {
@@ -196,12 +202,51 @@
 .data-fieldset select, .data-fieldset div {
     margin: 3px auto;
 }
-.data-fieldset .submit-data {
+.data-fieldset .submit-data, .data-fieldset .visualize-data {
     padding: 5px 10px;
+    margin-left: 10px;
 }
+
 .data-fieldset .submit-data:active {
     background-color: rgb(57, 104, 57);
 }
 .data-legend {
     font-weight: 600;
+}
+.used-value-item-mob span {
+    padding-bottom: 3px;
+    width: 50%;
+    /* margin-bottom: 10px; */
+}
+
+@media screen and (max-width: 340px) {
+    .visualize-data {
+        width:80%;
+        margin-left: 0;
+    }
+}
+
+/** Converter CSS  */
+.convert-transition {
+    margin-left: 4px;
+    background-color: rgb(15, 122, 228);
+    padding: 0 3px;
+    /* border-right: white 1px solid;
+    border-bottom: white 1px solid; */
+    border-radius: 6px;
+    font-size: 18px;
+    color: white;
+    animation: MoveUpDown 1s linear infinite;
+    /* position: absolute; */
+}
+@keyframes MoveUpDown {
+  0% {
+      transform: translate(0,0);
+  }
+  25% {
+      transform: translateY(2px);
+  }
+  100% {
+      transform: translate(2px, 0);
+  }
 }
