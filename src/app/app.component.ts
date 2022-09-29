@@ -387,6 +387,9 @@ export class AppComponent implements OnChanges {
           this.used_remain_percentages['percentages'].push({'id': value.id,'used' : value.used_percentage , 'remain' : value.remaining_percentage});
           this.used_remain_amounts['amounts'].push({'id': value.id,'used' : value.used_amount , 'remain' : ( (value.planned_percentage / 100) * this.Amount ) - value.used_amount });
       });
+
+      /** By-default, Display Used Amount Values */
+      this.extractKeysAndValues(this.used_remain_amounts['amounts'],'used');
       // console.log(this.used_remain_amounts);
       // console.log(this.used_remain_percentages);
   }
