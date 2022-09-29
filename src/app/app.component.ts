@@ -76,12 +76,20 @@ export class AppComponent implements OnChanges {
         { 'parent_given' : 15 },
         { 'on_my_self' : 5 }
     );
-    this.used_remain_percentages = {
-        'percentages' : [],
-    };
-    this.used_remain_amounts = {
-        'amounts' : [],
-    };
+    this.setMostVariablesToDefault();
+  }
+
+  /** When Navigation to Satrt -> It will Reinitialize required Variables For this Stage */
+  setMostVariablesToDefault() {
+      this.step = 1;
+      this.visualizeChart = false;
+      this.visualizeTable = false;
+      this.used_remain_amounts = {
+          'amounts' : [],
+      };
+      this.used_remain_percentages = {
+          'percentages' : [],
+      };
   }
 
   getScreenWidth() {
@@ -175,6 +183,7 @@ export class AppComponent implements OnChanges {
 
   getUnPlannedAmount() {
       let totalUsedAmount = 0;
+    //  console.log(this.dataValues);
       this.dataValues.forEach((value) => {
           totalUsedAmount = totalUsedAmount + value;
       });
@@ -231,7 +240,6 @@ export class AppComponent implements OnChanges {
   }
 
   /** Get Data Values and Keys */
-
   extractKeysAndValues(data: any, amount_type='planned') {
     this.dataValues = [];
     // console.log(this.PlannedData);
@@ -283,9 +291,7 @@ export class AppComponent implements OnChanges {
 
   /** Navigation to Start */
   startAllOver() {
-      this.step = 1;
-      this.visualizeChart = false;
-      this.visualizeTable = false;
+      this.setMostVariablesToDefault();
   }
 
   createChart() {
