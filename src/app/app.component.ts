@@ -82,7 +82,7 @@ export class AppComponent implements OnChanges {
   saveAmount(data: any) {
       this.Amount = data;
       this.step = 3;
-      this.createAPlan();
+      this.createAPlan('new');
   }
   getPlanned() {
       return this.http.get(this.helperService.BASE_URL + 'getPlanned.php').subscribe({
@@ -110,10 +110,13 @@ export class AppComponent implements OnChanges {
       );
   }
 
-  createAPlan() {
+  createAPlan(amountType = 'new') {
       // const make_slaughter_key = 'slaughter_'+(new Date()).getFullYear();
 
-      this.saveToDatabase('planned');
+      /** Only save When User enters the amount => as a new Amount, Like 1st Time Or when Ever Choose to Add amount */
+      if(amountType == 'new') {
+          this.saveToDatabase('planned');
+      }
 
       this.createChart();
 
@@ -217,7 +220,8 @@ export class AppComponent implements OnChanges {
   /** Move to Planned Chart */
   moveToPlannedChart() {
       this.step = 3;
-      this.createAPlan();;
+      this.visualize = false; /** So 2 Charts will not show */
+      this.createAPlan('already_stored'); /** Means => Amount has already been stored, So no need to send Request Again */
   }
 
   createChart() {
