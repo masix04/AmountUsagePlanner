@@ -124,18 +124,23 @@ export class AppComponent implements OnChanges {
       this.step = 1;
       this.visualizeChart = false;
       this.visualizeTable = false;
-      this.used_remain_amounts = {
-          'amounts' : [],
-      };
-      this.used_remain_percentages = {
-          'percentages' : [],
-      };
+      this.setUsedArraysToDefault();
       this.CHART_DATA = {
           "category" : [],
           "planned_data": [],
           "used_data": [],
           "remaining_data": []
       }
+  }
+
+  /** Used Array set to Initial */
+  setUsedArraysToDefault() {
+      this.used_remain_amounts = {
+          'amounts' : [],
+      };
+      this.used_remain_percentages = {
+          'percentages' : [],
+      };
   }
 
   getScreenWidth() {
@@ -398,10 +403,15 @@ export class AppComponent implements OnChanges {
 
   /** Separated Percentages & Amounts for New Feature To Provide User more Choices to Visualize Data */
   separateUsedAmountAndPercentage() {
+/** 1st => Initialize Values to Empty Data =>
+ *           Then Fill again =>  So PILE WILL not be Create
+ */
+      this.setUsedArraysToDefault();
+
       this.usedData.forEach((value: any, key: any) => {
-          console.log(value);
+          // console.log(value);
           this.used_remain_percentages['percentages'].push({'id': value.id,'used' : (value.used_percentage)? value.used_percentage : '0.0', 'remain' : (value.remaining_percentage)? value.remaining_percentage: '0'});
-          this.used_remain_amounts['amounts'].push({'id': value.id,'used' : value.used_amount , 'remain' : ( (value.planned_percentage / 100) * this.Amount ) - value.used_amount });
+          this.used_remain_amounts['amounts'].push({'id': value.id,'used' : (value.used_amount)? value.used_amount: '0' , 'remain' : ( (value.planned_percentage / 100) * this.Amount ) - value.used_amount });
       });
 
       this.fillChartData(this.used_remain_percentages['percentages'], 'used');
