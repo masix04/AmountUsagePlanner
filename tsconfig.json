@@ -3,6 +3,9 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+        // To remove the error came while importing .json file
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
     "sourceMap": true,
     "declaration": false,
     "module": "es2015",

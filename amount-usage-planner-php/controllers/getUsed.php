@@ -23,7 +23,7 @@ $db = new DB_Query;
 $getUsedquery = "SELECT sp.`id`, sp.`key_name`,sp.`planned_percentage`,
                                   SUM(ua.`used_amount`) AS `used_amount`
                                   , SUM(ua.`used_percentage`) AS `used_percentage`
-                                  , sp.`planned_percentage` - SUM(ua.`used_percentage`) AS `remaining_percentage`
+                                  , sp.`planned_percentage` - IF(SUM(ua.`used_percentage`), SUM(ua.`used_percentage`), 0) AS `remaining_percentage`
                               FROM save_plan sp
                               LEFT JOIN used_amount ua ON ua.`key_id` = sp.`id`
                               GROUP BY sp.`id`";

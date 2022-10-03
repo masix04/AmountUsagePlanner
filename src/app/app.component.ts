@@ -2,6 +2,8 @@ import { Component, HostListener, OnChanges, SimpleChanges } from '@angular/core
 import { HelperService } from './helperService/helper.service';
 import { HttpClient } from '@angular/common/http';
 
+import plannedPercent from './RestAPI/planned-items.json';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -21,7 +23,7 @@ export class AppComponent implements OnChanges {
   months = [];
   monthsFromCurrent = [];
 
-  plannedPercentages = [];
+  plannedPercentages = plannedPercent;
   percentagesSeparatly = [];
 
   remainAmount: any;
@@ -66,18 +68,19 @@ export class AppComponent implements OnChanges {
       });
       console.log(this.monthsFromCurrent);
 
-      this.plannedPercentages.push(
-        { 'hidden_save' : 25  },
-        { 'next_year_slaughter' : 7.5 },
-        { 'young_given1': 1.25 },
-        { 'young_given2' : 1.25  },
-        { 'emergency_cause' : 25 },
-        { 'fuel' : 10 },
-        { 'entertain' : 7 },
-        { 'given_away' : 3 },
-        { 'parent_given' : 15 },
-        { 'on_my_self' : 5 }
-    );
+    //   this.plannedPercentages.push(
+    //     { 'hidden_save' : 25  },
+    //     { 'next_year_slaughter' : 7.5 },
+    //     { 'young_given1': 1.25 },
+    //     { 'young_given2' : 1.25  },
+    //     { 'emergency_cause' : 25 },
+    //     { 'fuel' : 10 },
+    //     { 'entertain' : 7 },
+    //     { 'given_away' : 3 },
+    //     { 'parent_given' : 15 },
+    //     { 'on_my_self' : 5 }
+    // );
+    // console.log(this.plannedPercentages);
     this.setMostVariablesToDefault();
 
     /** Fill Chart Data
@@ -277,8 +280,9 @@ export class AppComponent implements OnChanges {
     const fuel = Math.ceil( ((10 / 100)) * this.Amount );
     const entertain = Math.ceil( ((7 / 100)) * this.Amount );
     const given_away = Math.ceil( ((3 / 100)) * this.Amount );
-    const parent_given = Math.ceil( ((15 / 100)) * this.Amount );
+    const parent_given = Math.ceil( ((10 / 100)) * this.Amount );
     const on_my_self = Math.ceil( ((5 / 100)) * this.Amount );
+    const home_related = Math.ceil( ((5 / 100)) * this.Amount );
 
     this.PlannedData['causes'] = {'hidden_save':hidden_save};
     this.PlannedData['causes']['next_year_slaughter'] = next_year_slaughter;
@@ -290,6 +294,7 @@ export class AppComponent implements OnChanges {
     this.PlannedData['causes']['given_away'] = given_away;
     this.PlannedData['causes']['parent_given'] = parent_given;
     this.PlannedData['causes']['on_my_self'] = on_my_self;
+    this.PlannedData['causes']['home_related'] = home_related;
 
     this.extractKeysAndValues(this.PlannedData['causes'], 'planned');
   }

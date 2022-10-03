@@ -1,0 +1,13 @@
+[
+    { "hidden_save" : 25  },
+    { "next_year_slaughter" : 7.5 },
+    { "young_given1": 1.25 },
+    { "young_given2" : 1.25  },
+    { "emergency_cause" : 25 },
+    { "fuel" : 10 },
+    { "entertain" : 7 },
+    { "given_away" : 3 },
+    { "parent_given" : 10 },
+    { "on_my_self" : 5 },
+    { "home_related" : 5 }
+]

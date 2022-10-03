@@ -47,4 +47,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
   [3rd/October/2022]
   1- Made Chart Dynamic 
   2- Improvements in getting used Data when required
-   
+  3- Initialize Data Arrays before push Data in it.
+  4- Conditionaly added 0 if their is not Spent amount for an item. 
+  5- Backend-Fixed: mySQL Query to get Used & Remaining Amount and percentages  
+  6- Improved in a sense to make Planned Data Dynamic -> Helpfull in CASE - If new item will be add then only one place where need 
+  7- If Data which has [sent in request] and [saved in Database] are not same length then DELETE old and Add a new One.

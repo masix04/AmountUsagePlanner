@@ -36,6 +36,14 @@ $date = date('Y-m-d h:i:s');
 
 $db = new DB_Query;
 
+/** get DB planned Length & compare it with the Data WHich has been recieved from VUE */
+$getPlannedDataCountQuery = "SELECT count(*) `count` from `save_plan`";
+$getPlannedDataCount = $db->rawSQLQuery($getPlannedDataCountQuery);
+
+if($getPlannedDataCount != count($plan_percentage)) {
+    $RemovePrevious = $db->rawSQLQuery('DELETE from `amount`');
+}
+
 $getAmountsCountQuery = "SELECT count(*) `count` from `amount`";
 $getAmountsCount = $db->rawSQLQuery($getAmountsCountQuery);
 $amountCount = 0;
