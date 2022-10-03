@@ -44,6 +44,8 @@ export class AppComponent implements OnChanges {
   percent_display_selected = true; /** By-default Percentage SWITCH Icon Will be Shown, While Data in Amounts Shows */
   amount_display_selected = false;
 
+  CHART_DATA: any;
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
       this.getScreenWidth();
@@ -77,7 +79,45 @@ export class AppComponent implements OnChanges {
         { 'on_my_self' : 5 }
     );
     this.setMostVariablesToDefault();
+
+    /** Fill Chart Data
+     *      =>  FUNCTION will be 1  <=
+     *      =>  2 PARAMS , [1] - Data, [2] - type eg: ( category, planned_data, ..., remaining_data ) e.t.c. <=
+     *                =====>  ONLY Percentages % Handeling  <=====
+     */
+    this.fillChartData(this.plannedPercentages, 'category');
+    this.fillChartData(this.plannedPercentages, 'planned');
   }
+
+
+  fillChartData(data :any, type: any) {
+
+    if(type == 'category') {
+        data.forEach((element: any) => {
+            this.CHART_DATA['category'].push( {'label' : Object.keys(element)[0] });
+        });
+    }
+    else if(type == 'planned') {
+        data.forEach((element: any) => {
+            this.CHART_DATA['planned_data'].push( {'value' : Object.values(element)[0] });
+        });
+    }
+    else if(type == 'used') {
+        data.forEach((element: any) => {
+            this.CHART_DATA['used_data'].push( {'value' : Object.values(element)[1] });
+        });
+    }
+    else if(type == 'remaining') {
+      data.forEach((element: any) => {
+          this.CHART_DATA['remaining_data'].push( {'value' : Object.values(element)[2] });
+      });
+    }
+
+   // console.log('CHART_DATA');
+   // console.log(this.CHART_DATA);
+
+  }
+
 
   /** When Navigation to Satrt -> It will Reinitialize required Variables For this Stage */
   setMostVariablesToDefault() {
@@ -90,6 +130,12 @@ export class AppComponent implements OnChanges {
       this.used_remain_percentages = {
           'percentages' : [],
       };
+      this.CHART_DATA = {
+          "category" : [],
+          "planned_data": [],
+          "used_data": [],
+          "remaining_data": []
+      }
   }
 
   getScreenWidth() {
@@ -165,7 +211,11 @@ export class AppComponent implements OnChanges {
           this.saveToDatabase('planned');
       }
 
-      this.createChart();
+      /** This function starts for NEW =>
+       *                                   WHICH Means -> User has not saved any item USED Amount YET
+       *            -> So, no used and Remaining Chart will show
+       */
+      this.createChart('new');
 
       this.AmountAgainstPercentages();
 
@@ -205,7 +255,7 @@ export class AppComponent implements OnChanges {
       this.PlannedData['months'] = this.monthsFromCurrent;
   }
 
-  /** Spent Amount Plan  */
+  /** Spent Amount Plan  */ /** VALIDATED => IF not selected THEN no SAVE */
   saveSpentAmount() {
       // (this.KEY_SELECTED == undefined)? console.log('No Item Selected.') : console.log(this.KEY_SELECTED);
       // (this.SPENT_AMOUNT == undefined)? console.log('No Amount Added') : console.log(this.SPENT_AMOUNT);
@@ -254,7 +304,7 @@ export class AppComponent implements OnChanges {
 /** Toggle Chart Switches */
   displayChart() {
       this.visualizeChart = true;
-      this.createChart();
+      this.createChart('used');
   }
   hideChart() {
       this.visualizeChart = false;
@@ -263,7 +313,11 @@ export class AppComponent implements OnChanges {
   /** Toggle Chart Switches */
   displayTable() {
       this.visualizeTable = true;
-      this.createTable('used');
+
+      /** GET USED means - get Used Data Again
+       *        CASE => If user adds an item and then checks what Used PLAN has been developed So need to get from DB Again for recent Data Addition
+      */
+       this.getUsed();
   }
   hideTable() {
       this.visualizeTable = false;
@@ -294,8 +348,17 @@ export class AppComponent implements OnChanges {
       this.setMostVariablesToDefault();
   }
 
-  createChart() {
-     /** Hard-coated Chart  */
+  createChart(type :any) {
+
+    /** Get Used Data first  */
+    /** GET USED means Here - get Used Data Again
+     *        CASE => If user adds an item and then checks what Used PLAN has been developed So need to get from DB Again for recent Data Addition
+    */
+    if(type == 'used') {
+        this.getUsed();
+    }
+
+     /** Dynamic Chart  */
      this.dataSource = {
       chart: {
         "caption": "My "+this.PLAN_WHAT+" Usage Planner",
@@ -308,89 +371,46 @@ export class AppComponent implements OnChanges {
       },
       "categories": [
         {
-          "category": [
-            { 'label' : 'hidden_save'},
-            { 'label' : 'next_year_slaughter'},
-            { 'label' : 'young_given1'},
-            { 'label' : 'young_given2'},
-            { 'label' : 'emergency_cause'},
-            { 'label' : 'fuel'},
-            { 'label' : 'entertain'},
-            { 'label' : 'given_away'},
-            { 'label' : 'parent_given'},
-            { 'label' : 'on_my_self' }
-          ]
+          "category": this.CHART_DATA['category']
         }
       ],
       "dataset": [
         {
           "seriesName": "Planned Amount",
-          "data": [
-            { 'value' : 25 },
-            { 'value' : 7.5 },
-            { 'value': 1.25 },
-            { 'value' : 1.25 },
-            { 'value' : 25 },
-            { 'value' : 10 },
-            { 'value' : 7 },
-            { 'value' : 3 },
-            { 'value' : 15 },
-            { 'value' : 5 }
-          ]
+          "data": this.CHART_DATA['planned_data']
         },
         {
           "seriesName": "Amount Used",
           "renderAs": "line",
-          "data": [  /** This Amount We will Get after Developing the MODULE-2 */
-            { 'value' : 25 },
-            { 'value' : 7.5 },
-            { 'value': 1.25 },
-            { 'value' : 1.25 },
-            { 'value' : 25 },
-            { 'value' : 12 },
-            { 'value' : 10 },
-            { 'value' : 2 },
-            { 'value' : 0 },
-            { 'value' : 3 }
-          ]
+          "data": this.CHART_DATA['used_data']
         },
         {
           "seriesName": "Remaining Amount",
           "renderAs": "area",
           "showAnchors" : "0",
-          "data": [
-            { 'value' : 0 },
-            { 'value' : 0 },
-            { 'value': 0 },
-            { 'value' : 0 },
-            { 'value' : 0 },
-            { 'value' : -2 },
-            { 'value' : -3 },
-            { 'value' : 1 },
-            { 'value' : 15 },
-            { 'value' : 2 }
-          ]
+          "data": this.CHART_DATA['remaining_data']
         }
       ]
       // data: this.plannedPercentages
     };
+    // console.log(this.dataSource);
   }
-  createTable(table_amount_type = "new") {
-      if(table_amount_type == "used") {
-          this.getUsed();
-      }
-  }
+
   /** Separated Percentages & Amounts for New Feature To Provide User more Choices to Visualize Data */
   separateUsedAmountAndPercentage() {
       this.usedData.forEach((value: any, key: any) => {
-          // console.log(value);
-          this.used_remain_percentages['percentages'].push({'id': value.id,'used' : value.used_percentage , 'remain' : value.remaining_percentage});
+          console.log(value);
+          this.used_remain_percentages['percentages'].push({'id': value.id,'used' : (value.used_percentage)? value.used_percentage : '0.0', 'remain' : (value.remaining_percentage)? value.remaining_percentage: '0'});
           this.used_remain_amounts['amounts'].push({'id': value.id,'used' : value.used_amount , 'remain' : ( (value.planned_percentage / 100) * this.Amount ) - value.used_amount });
       });
+
+      this.fillChartData(this.used_remain_percentages['percentages'], 'used');
+    //  console.log(this.used_remain_percentages['percentages']);
+      this.fillChartData(this.used_remain_percentages['percentages'], 'remaining');
 
       /** By-default, Display Used Amount Values */
       this.extractKeysAndValues(this.used_remain_amounts['amounts'],'used');
       // console.log(this.used_remain_amounts);
-      // console.log(this.used_remain_percentages);
+      // console.log(this.used_remain_percentages['percentages']);
   }
 }

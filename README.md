@@ -44,3 +44,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
  4- Provide User an Ease to Navigate with possible Situations
       i- From (Adding a used Amount for a plan's Item) towards ( the Table of Already Planned Items Amount). 
 
+  [3rd/October/2022]
+  1- Made Chart Dynamic 
+  2- Improvements in getting used Data when required
+   
