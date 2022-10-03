@@ -207,9 +207,9 @@ export class AppComponent implements OnChanges {
 
   /** Spent Amount Plan  */
   saveSpentAmount() {
-      (this.KEY_SELECTED == undefined)? console.log('No Item Selected.') : console.log(this.KEY_SELECTED);
-      (this.SPENT_AMOUNT == undefined)? console.log('No Amount Added') : console.log(this.SPENT_AMOUNT);
-      this.saveToDatabase('used');
+      // (this.KEY_SELECTED == undefined)? console.log('No Item Selected.') : console.log(this.KEY_SELECTED);
+      // (this.SPENT_AMOUNT == undefined)? console.log('No Amount Added') : console.log(this.SPENT_AMOUNT);
+      (this.KEY_SELECTED == undefined || this.SPENT_AMOUNT == undefined)? 'Please fill the requirement.' : this.saveToDatabase('used');
   }
 
   AmountAgainstPercentages() {

@@ -250,3 +250,11 @@
       transform: translate(2px, 0);
   }
 }
+
+/** Show Save button a little bigger on Desktop  */
+@media screen and (min-width: 757px) {
+    .data-fieldset .submit-data {
+        padding: 11px 20px;
+        font-weight: 600;
+    }
+}
