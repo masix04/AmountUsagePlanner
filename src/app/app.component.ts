@@ -16,7 +16,7 @@ export class AppComponent implements OnChanges {
 
   step = 1;
 
-  PlannedData = [];
+  PlannedData: any;
   dataKeys = [];
   dataValues = [];
 
@@ -119,6 +119,11 @@ export class AppComponent implements OnChanges {
       this.step = 1;
       this.visualizeChart = false;
       this.visualizeTable = false;
+      this.PlannedData = {
+          'causes' : [],
+          'percentages': [],
+          'months': []
+      }
       this.setUsedArraysToDefault();
       this.setChartArrayToDefault();
   }
@@ -223,16 +228,17 @@ export class AppComponent implements OnChanges {
        */
       this.createChart('new');
 
-      this.AmountAgainstPercentages();
-
       /** Getting Total Amount Used */
       this.getUnPlannedAmount();
 
-      this.mergePecentagesWithPlannedData();
-      this.mergeMonthsWithPlannedData();
-
       /** Getting Unplanned Percentage */
       this.getUnPlannedPercentage();
+
+      /** Getting caused  */
+      this.AmountAgainstPercentages();
+
+      this.mergePecentagesWithPlannedData();
+      this.mergeMonthsWithPlannedData();
 
       // console.log(this.PlannedData);
   }
@@ -251,7 +257,10 @@ export class AppComponent implements OnChanges {
           totalUsedPercentage = totalUsedPercentage + values[this.dataKeys[key]];
           this.percentagesSeparatly.push(values[this.dataKeys[key]]);
       });
+      // console.log(this.percentagesSeparatly);
       this.remainPercentage = 100 - totalUsedPercentage;
+      // console.log('totalUsedPercentage: '+totalUsedPercentage);
+      // console.log('remainPercentage: ' + this.remainPercentage);
   }
 
   mergePecentagesWithPlannedData() {
@@ -270,7 +279,13 @@ export class AppComponent implements OnChanges {
 
   AmountAgainstPercentages() {
 
-    const hidden_save = Math.ceil( ((25 / 100)) * this.Amount );
+    this.plannedPercentages.forEach((value:any) => {
+      this.PlannedData['causes'][<any>Object.keys(value)] = Math.ceil( (( <any>(Object.values(value)) / 100)) * this.Amount );
+        // console.log(key + ' - => ' + Object.keys(value) + ' -- ==> ' + Object.values(value));
+    });
+    // console.log(this.PlannedData['causes']);
+/**
+     const hidden_save = Math.ceil( ((25 / 100)) * this.Amount );
     const next_year_slaughter = Math.ceil( ((8 / 100)) * this.Amount );
     const young_given1 = Math.ceil( ((1 / 100)) * this.Amount );
     const young_given2 = Math.ceil( ((1 / 100)) * this.Amount );
@@ -293,7 +308,7 @@ export class AppComponent implements OnChanges {
     this.PlannedData['causes']['parent_given'] = parent_given;
     this.PlannedData['causes']['on_my_self'] = on_my_self;
     this.PlannedData['causes']['home_related'] = home_related;
-
+*/
     this.extractKeysAndValues(this.PlannedData['causes'], 'planned');
   }
 

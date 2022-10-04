@@ -7,7 +7,8 @@
     { "fuel" : 10 },
     { "entertain" : 7 },
     { "given_away" : 3 },
-    { "parent_given" : 9 },
+    { "parent_given" : 7 },
     { "on_my_self" : 6 },
-    { "home_related" : 5 }
+    { "home_related" : 5 },
+    { "car_related" : 2 }
 ]
