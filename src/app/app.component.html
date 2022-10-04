@@ -218,15 +218,25 @@
               </fusioncharts>
           </div>
 
-          <div *ngIf="innerWidth < 576" class="text-center mb-3 planned-graph">
+          <div *ngIf="innerWidth > 450 && innerWidth < 576" class="text-center mb-3 planned-graph">
               <fusioncharts
-                  width="330"
+                  width="430"
                   height="400"
                   type="mscombi2d"
                   dataFormat="json"
                   [dataSource]=dataSource>
               </fusioncharts>
           </div>
+
+          <div *ngIf="innerWidth < 451" class="text-center mb-3 planned-graph">
+            <fusioncharts
+                width="330"
+                height="400"
+                type="mscombi2d"
+                dataFormat="json"
+                [dataSource]=dataSource>
+            </fusioncharts>
+        </div>
       </div>
 
     <div class="w-100 bg-secondary pt-2 home-foot rounded-top text-center">

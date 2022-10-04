@@ -34,6 +34,9 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
   
 ## Requirements fulfilled
 
+  ## Remember => 
+      In THIS SPA, We need to call created functions whenever any required Process Started. So, We cannot just work in Contructor.
+
  [29/September/2022]
  1- Remove not required HTTP Requests on user navigation to pages.
  2- Provide Multiple Visualizations of Usage Amount [Tabular-Form]  & [Charts].
@@ -52,3 +55,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
   5- Backend-Fixed: mySQL Query to get Used & Remaining Amount and percentages  
   6- Improved in a sense to make Planned Data Dynamic -> Helpfull in CASE - If new item will be add then only one place where need 
   7- If Data which has [sent in request] and [saved in Database] are not same length then DELETE old and Add a new One.
+
+  [4th/October/2022] 
+  1- Fixing Function Calls Because this is Single Page Application. And it's Constructor call only 1 time
+     a- [Planned] and [Used] Charts will show on request and fullfil the request.
+  2- *** Create an architecture to show how Functions are working ***

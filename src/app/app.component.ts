@@ -82,14 +82,6 @@ export class AppComponent implements OnChanges {
     // );
     // console.log(this.plannedPercentages);
     this.setMostVariablesToDefault();
-
-    /** Fill Chart Data
-     *      =>  FUNCTION will be 1  <=
-     *      =>  2 PARAMS , [1] - Data, [2] - type eg: ( category, planned_data, ..., remaining_data ) e.t.c. <=
-     *                =====>  ONLY Percentages % Handeling  <=====
-     */
-    this.fillChartData(this.plannedPercentages, 'category');
-    this.fillChartData(this.plannedPercentages, 'planned');
   }
 
 
@@ -128,12 +120,7 @@ export class AppComponent implements OnChanges {
       this.visualizeChart = false;
       this.visualizeTable = false;
       this.setUsedArraysToDefault();
-      this.CHART_DATA = {
-          "category" : [],
-          "planned_data": [],
-          "used_data": [],
-          "remaining_data": []
-      }
+      this.setChartArrayToDefault();
   }
 
   /** Used Array set to Initial */
@@ -146,6 +133,14 @@ export class AppComponent implements OnChanges {
       };
   }
 
+  setChartArrayToDefault() {
+      this.CHART_DATA = {
+          "category" : [],
+          "planned_data": [],
+          "used_data": [],
+          "remaining_data": []
+      }
+  }
   getScreenWidth() {
     this.innerWidth = window.innerWidth;
     // console.log(this.innerWidth);
@@ -157,6 +152,9 @@ export class AppComponent implements OnChanges {
   saveAmount(data: any) {
       this.Amount = data;
       this.step = 3;
+
+      this.fillChart();
+
       this.createAPlan('new');
   }
 
@@ -273,15 +271,15 @@ export class AppComponent implements OnChanges {
   AmountAgainstPercentages() {
 
     const hidden_save = Math.ceil( ((25 / 100)) * this.Amount );
-    const next_year_slaughter = Math.ceil( ((7.5 / 100)) * this.Amount );
-    const young_given1 = Math.ceil( ((1.25 / 100)) * this.Amount );
-    const young_given2 = Math.ceil( ((1.25 / 100)) * this.Amount );
+    const next_year_slaughter = Math.ceil( ((8 / 100)) * this.Amount );
+    const young_given1 = Math.ceil( ((1 / 100)) * this.Amount );
+    const young_given2 = Math.ceil( ((1 / 100)) * this.Amount );
     const emergency_cause = Math.ceil( ((25 / 100)) * this.Amount );
     const fuel = Math.ceil( ((10 / 100)) * this.Amount );
     const entertain = Math.ceil( ((7 / 100)) * this.Amount );
     const given_away = Math.ceil( ((3 / 100)) * this.Amount );
-    const parent_given = Math.ceil( ((10 / 100)) * this.Amount );
-    const on_my_self = Math.ceil( ((5 / 100)) * this.Amount );
+    const parent_given = Math.ceil( ((9 / 100)) * this.Amount );
+    const on_my_self = Math.ceil( ((6 / 100)) * this.Amount );
     const home_related = Math.ceil( ((5 / 100)) * this.Amount );
 
     this.PlannedData['causes'] = {'hidden_save':hidden_save};
@@ -309,6 +307,23 @@ export class AppComponent implements OnChanges {
     }
     this.dataValues = Object.values(data);
     // console.log(this.dataValues);
+  }
+
+  fillChart() {
+
+      /** This should be here, not in FillCHART Data  */
+      this.setChartArrayToDefault();
+
+      /** Fill Chart Data
+       *      =>  FUNCTION will be 1  <=
+       *      =>  2 PARAMS , [1] - Data, [2] - type eg: ( category, planned_data, ..., remaining_data ) e.t.c. <=
+       *                =====>  ONLY Percentages % Handeling  <=====
+       */
+      this.fillChartData(this.plannedPercentages, 'category');
+      this.fillChartData(this.plannedPercentages, 'planned');
+
+      // console.log('CHART_DATA');
+      // console.log(this.CHART_DATA);
   }
 
 /** Toggle Chart Switches */
@@ -350,6 +365,10 @@ export class AppComponent implements OnChanges {
       this.step = 3;
       this.visualizeChart = false; /** So Chart will not show */
       this.visualizeTable = false; /** So Table Will be Hide */
+
+      /** Fill chart according to requirement => eg: If planned then only show Planned Chart */
+      this.fillChart();
+
       this.createAPlan('already_stored'); /** Means => Amount has already been stored, So no need to send Request Again */
   }
 
@@ -367,6 +386,9 @@ export class AppComponent implements OnChanges {
     if(type == 'used') {
         this.getUsed();
     }
+
+      /** Fill chart according to requirement => eg: If planned then only show Planned Chart */
+      this.fillChart();
 
      /** Dynamic Chart  */
      this.dataSource = {
