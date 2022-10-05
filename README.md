@@ -60,3 +60,12 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
   1- Fixing Function Calls Because this is Single Page Application. And it's Constructor call only 1 time
      a- [Planned] and [Used] Charts will show on request and fullfil the request.
   2- *** Create an architecture to show how Functions are working ***
+
+  [5th/October/2022]
+  1- Add a Button to *[save Updated Planned items Or Percentage to DB]* Before move to add Used Amount PROCESS.
+
+  ## UPDATE Process
+ 
+  ## -- Idea came to mind
+
+  1- Instead of Starting the Planned PERCENTAGE process from [.JSON] File and the update here and apply changes to Database. Do it other Way. Which is -> Provide a feature to **Create Planned Items with Percentages**  when created it **->** save to Database **=>** move to Home page **=>** Show button to **Update the Created Plan** If came from Created Plan process. Otherwise the above mentioned [create-new].   **==>** then Start process which is already working. 

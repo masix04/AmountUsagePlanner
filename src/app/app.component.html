@@ -12,9 +12,14 @@
             <input class="form-control" type="text" id="planWhat" name="planWhat" [(ngModel)]="PLAN_WHAT" />
             <label for="floatingInput">Plan What!</label>
             <button type="button" class="btn btn-secondary mt-1 start-50 border"
-              style="font-size:12px; padding:5px;" (click)="addUsedAmount()" >Save Used Amount</button>
+              [ngStyle] ="{ 'font-size': (innerWidth < 775)? 12+'px' : 18+'px' , 'padding' : 5+'px' }" (click)="addUsedAmount()" >Save Used Amount
+            </button>
+            <button type="button" class="btn btn-success mt-1 start-100 border" disabled="true" title="Feature will be available soon"
+              [ngStyle] ="{ 'font-size': (innerWidth < 775)? 12+'px' : 18+'px' , 'font-weight': (innerWidth < 575)? 400 : 600 , 'padding' : 5+'px', 'float': 'right' }" (click)="createNewPlan()" >Create a new Plan
+            </button>
         </div>
         <button type="button" class="btn btn-light position-absolute bottom-0 start-50 translate-middle border" (click)="showNextAmountInput()" >Let's Start</button>
+        <button type="button" class="btn btn-dark position-absolute bottom-0 mb-3 ms-2 border" (click)="saveToDatabase('planned')" >Save changes to Database</button>
         <!-- <span class="alert alert-primary position-absolute bottom-0 start-50 translate-middle mt-1 pt-0 pb-0 mb-1">When you start type the name, After 10 seconds screen will be hidden </span> -->
     </div>
 
