@@ -7,44 +7,71 @@ require_once "../config/db_class.php";
 
 date_default_timezone_set('Asia/Karachi');// Otherwise it shows -5 hours from PAKISTAN
 
-$request_Method = $_SERVER['REQUEST_METHOD'];
+$getters = new Getters();
 
-if($request_Method == 'GET') {
-
-    $type = $_GET['type'];
-    $key = $_GET['key'];
-    // echo($type . ' --- ' . $key);
-
-}
+$getters->setRequestMethod();
+$getters->setType();
+$getters->setKey();
 
 $date = date('Y-m-d h:i:s');
 
-$db = new DB_Query;
+$getters->getFromDatabase();
 
-if($type == 'amount') {
-    $getSavedQuery = "SELECT `value` from `amount`";
-}
-else if($type == 'key_planned_percent' && $key != null) {
-    $getSavedQuery = "SELECT `planned_percentage` from `save_plan` WHERE `key_name` = $key";
-}
+class Getters {
+    private $request_Method;
+    private $type;
+    private $key;
 
-$getSavedData = $db->rawSQLQuery($getSavedQuery);
+    public function setType() {
+        $this->type = $_GET['type'];
+    }
+    public function setKey() {
+        $this->key = $_GET['key'];
+    }
 
-    $myArray = array();
-    if ( !empty($getSavedData->num_rows) && $getSavedData->num_rows > 0) {
-        while($row = $getSavedData->fetch_assoc()) {
-            $myArray[] = $row;
+    public function getKey() {
+        return $this->key;
+    }
+    public function getType() {
+        return $this->type;
+    }
+
+    public function setRequestMethod() {
+        $this->request_Method = $_SERVER['REQUEST_METHOD'];
+    }
+    public function getRequestMethod() {
+        return $this->request_Method;
+    }
+
+    public function getFromDatabase() {
+        $db = new DB_Query;
+
+        if($this->type == 'amount') {
+            $getSavedQuery = "SELECT `value` from `amount`";
+        }
+        else if($this->type == 'key_planned_percent' && $this->key != null) {
+            $getSavedQuery = "SELECT `planned_percentage` from `save_plan` WHERE `key_name` = $this->key";
         }
 
-        $response['AmountPlanner']['Planned'] = $myArray;
-        $response['message'] = 'Success';
-        $response['code'] = 200;
+        $getSavedData = $db->rawSQLQuery($getSavedQuery);
 
-        echo json_encode($response);
+        $myArray = array();
+        if ( !empty($getSavedData->num_rows) && $getSavedData->num_rows > 0) {
+            while($row = $getSavedData->fetch_assoc()) {
+                $myArray[] = $row;
+            }
+
+            $response['AmountPlanner']['Planned'] = $myArray;
+            $response['message'] = 'Success';
+            $response['code'] = 200;
+
+            echo json_encode($response);
+        }
+        else
+        {
+            echo "0 results";
+        }
     }
-    else
-    {
-        echo "0 results";
-    }
+}
 
 return;
