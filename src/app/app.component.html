@@ -38,7 +38,7 @@
     <!-- Template 3 -->
     <div class="position-relative" [ngClass]="(innerWidth > 575)? 'home-body-step-3': 'home-body-mob'" *ngIf="step == 3 || visualizeTable == true, Else elseTemplate">
         <span class="position-absolute top-0 start-50 translate-middle fs-4 rounded p-1 temp-3-body"> My <strong> {{PLAN_WHAT}} </strong> {{ (visualizeTable == true)? monthsFromCurrent[0] + ' spents' : 'Usage Planner'}} </span>
-        <span style="cursor:pointer;" class="mt-1 ms-1"><img src="/assets/images/back-arrow-solid-32.png" (click)="startAllOver()" /></span>
+        <span style="cursor:pointer;" class="mt-1 ms-1"><img class="back-arrow" src="/assets/images/back-arrow-solid-32.png" (click)="startAllOver()" /></span>
         <!-- For Tablets and Desktop-->
         <div *ngIf="innerWidth > 757" class="w-100 row align-items-start justify-content-center planned-table">
             <div class="col-2 text-bg-light d-flex keys-list">

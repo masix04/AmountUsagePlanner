@@ -50,6 +50,16 @@
 .planned-table-tab, .convert-table-mob {
     --bs-gutter-x: 0;
 }
+/** Shadow Table Head of Keys List */
+.planned-table-tab .keys-list-mob .text-center {
+    box-shadow: 4px 1px 5px black;
+}
+
+/** Shadow Table Head of Spent and Remain Headings */
+.planned-table-tab .values-list-mob li  {
+    box-shadow: 3px 1px 5px black;
+}
+
 .planned-table,.planned-table-mob,.planned-table-tab {
     height:inherit;
     padding-top: 80px;
@@ -219,6 +229,11 @@
     /* margin-bottom: 10px; */
 }
 
+.back-arrow {
+    box-shadow: 1px 1px 3px rgb(48, 75, 83);
+    border-radius: 8px;
+}
+
 @media screen and (max-width: 340px) {
     .visualize-data {
         width:80%;
@@ -237,6 +252,7 @@
     font-size: 18px;
     color: white;
     animation: MoveUpDown 1s linear infinite;
+    box-shadow: 2px 2px 3px black;
     /* position: absolute; */
 }
 @keyframes MoveUpDown {
