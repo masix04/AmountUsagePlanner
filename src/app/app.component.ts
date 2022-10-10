@@ -119,6 +119,8 @@ export class AppComponent implements OnChanges {
       this.step = 1;
       this.visualizeChart = false;
       this.visualizeTable = false;
+      this.percent_display_selected = true; /** Show 'Rs' Sign First then Percentage -> No matter from Which page it rerouted From */
+      this.amount_display_selected = false; /** Show 'Rs' Sign First -> THIS was showing Both Changeable Modes */
       this.PlannedData = {
           'causes' : [],
           'percentages': [],
