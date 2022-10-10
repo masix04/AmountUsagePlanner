@@ -27,18 +27,21 @@
 .temp-1-body {
   margin-top: 40px;
   width: max-content;
-  box-shadow: rgb(189, 187, 187) 2px 2px 2px 2px;
+  box-shadow: rgb(189, 187, 187) 2px 2px 8px;
+  cursor: default;
 }
 .temp-2-body {
   margin-top: 40px;
   width: max-content;
   background-color: rgb(94, 145, 212);
-  box-shadow: rgb(189, 187, 187) 2px 2px 2px 2px;
+  box-shadow: rgb(189, 187, 187) 2px 5px 6px;
+  cursor: default;
 }
 .temp-3-body {
     margin-top: 40px;
     width: max-content;
-    box-shadow: rgb(189, 187, 187) 2px 2px 2px 2px;
+    box-shadow: rgb(189, 187, 187) 1px 3px 8px;
+    cursor: default;
 }
 
 .convert-table-mob {
@@ -58,6 +61,11 @@
 /** Shadow Table Head of Spent and Remain Headings */
 .planned-table-tab .values-list-mob li  {
     box-shadow: 3px 1px 5px black;
+}
+
+/** Shadow to Key Items */
+.planned-table-tab .keys-list-mob .key-item-mob {
+    box-shadow: 1px 2px 2px #9ea9b1;
 }
 
 .planned-table,.planned-table-mob,.planned-table-tab {
