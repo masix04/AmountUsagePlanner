@@ -161,7 +161,6 @@ export class AppComponent implements OnChanges {
       this.step = 3;
 
       this.fillChart();
-
       this.createAPlan('new');
   }
 
@@ -219,6 +218,9 @@ export class AppComponent implements OnChanges {
   createAPlan(amountType = 'new') {
       // const make_slaughter_key = 'slaughter_'+(new Date()).getFullYear();
 
+      /** Getting Unplanned Percentage */
+      this.getUnPlannedPercentage();
+
       /** Only save When User enters the amount => as a new Amount, Like 1st Time Or when Ever Choose to Add amount */
       if(amountType == 'new') {
           this.saveToDatabase('planned');
@@ -230,11 +232,10 @@ export class AppComponent implements OnChanges {
        */
       this.createChart('new');
 
-      /** Getting Total Amount Used */
-      this.getUnPlannedAmount();
+      /** Getting Total Amount Used */ /** DONOT  NEED NOW -> Because Process Was Wrong so the RESULT also */
+      // this.getUnPlannedAmount();
 
-      /** Getting Unplanned Percentage */
-      this.getUnPlannedPercentage();
+
 
       /** Getting caused  */
       this.AmountAgainstPercentages();
@@ -245,7 +246,7 @@ export class AppComponent implements OnChanges {
       // console.log(this.PlannedData);
   }
 
-  getUnPlannedAmount() {
+/*  getUnPlannedAmount() {
       let totalUsedAmount = 0;
     //  console.log(this.dataValues);
       this.dataValues.forEach((value) => {
@@ -253,16 +254,20 @@ export class AppComponent implements OnChanges {
       });
       this.remainAmount = this.Amount - totalUsedAmount;
   }
+*/
   getUnPlannedPercentage() {
       let totalUsedPercentage = 0;
+      this.percentagesSeparatly = []; /** Initialized to Empty */
+     // console.log(this.plannedPercentages);
       this.plannedPercentages.forEach((values, key) => {
           totalUsedPercentage = totalUsedPercentage + values[this.dataKeys[key]];
           this.percentagesSeparatly.push(values[this.dataKeys[key]]);
       });
-      // console.log(this.percentagesSeparatly);
+    //  console.log(this.percentagesSeparatly);
       this.remainPercentage = 100 - totalUsedPercentage;
-      // console.log('totalUsedPercentage: '+totalUsedPercentage);
-      // console.log('remainPercentage: ' + this.remainPercentage);
+      this.remainAmount = ( (this.remainPercentage / 100) * this.Amount);
+     // console.log('remainAmount: '+this.remainAmount);
+     // console.log('remainPercentage: ' + this.remainPercentage);
   }
 
   mergePecentagesWithPlannedData() {
