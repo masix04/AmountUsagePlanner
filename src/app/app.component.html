@@ -39,8 +39,10 @@
     <div class="position-relative" [ngClass]="(innerWidth > 575)? 'home-body-step-3': 'home-body-mob'" *ngIf="step == 3 || visualizeTable == true, Else elseTemplate">
         <span class="position-absolute top-0 start-50 translate-middle fs-4 rounded p-1 temp-3-body"> My <strong> {{PLAN_WHAT}} </strong> {{ (visualizeTable == true)? monthsFromCurrent[0] + ' spents' : 'Usage Planner'}} </span>
         <span style="cursor:pointer;" class="mt-1 ms-1"><img class="back-arrow" src="/assets/images/back-arrow-solid-32.png" (click)="startAllOver()" /></span>
+
+        <!--  Tables  -->
         <!-- For Tablets and Desktop-->
-        <div *ngIf="innerWidth > 757" class="w-100 row align-items-start justify-content-center planned-table">
+        <div *ngIf="innerWidth > 990" class="w-100 row align-items-start justify-content-center planned-table">
             <div class="col-2 text-bg-light d-flex keys-list">
                 <ul>
                     <li class="p-2 fs-4 text-bg-contrast text-center"><strong>#</strong></li>
@@ -62,7 +64,7 @@
                     <div class="values-list">
                         <ul>
                             <li *ngFor="let value of dataValues" class="border border-start-0 border-end-0 border-top-0 text-center me-3 mt-2 p-1 fs-5 text-dark">
-                                {{value}} Rs
+                                {{value.used}} Rs
                             </li>
                         </ul>
                     </div>
@@ -79,9 +81,10 @@
 
             <span class="remain-not-spend bottom-0 start-50 position-absolute translate-middle" >Remaining Amount: <strong> {{remainAmount}} Rs </strong>with <strong>{{remainPercentage}} % </strong></span>
         </div>
+
         <!-- IN PROGRESS ---   -->
         <!-- For Tablets -->
-        <div *ngIf="innerWidth > 575 && innerWidth < 757" class="w-100 row planned-table-tab">
+        <div *ngIf="innerWidth > 575 && innerWidth < 991" class="w-100 row planned-table-tab">
 
           <ul class="text-bg-light keys-list-tab"> <!-- Width = 30% -->
               <li class="p-2 fs-6 text-bg-contrast text-center"><strong>#</strong></li>
@@ -99,7 +102,7 @@
                   <strong>{{monthsFromCurrent[1]}}</strong>
               </li>
               <li *ngFor="let value of dataValues" class="border border-top-0 border-primary text-center mt-2 p-1 value-item-tab">
-                  {{value}} Rs
+                  {{value.used}} Rs
               </li>
               <li class="p-2 text-bg-contrast ht-40"></li>
           </ul>
@@ -109,6 +112,8 @@
 
       </div>
 
+      <!--  Used Amount changer   => 1)- in Percentage  2)- in Rupees  -->
+      <!--  For MOBILE  -->
       <div *ngIf="innerWidth < 576 && visualizeTable == true" class="position-absolute convert-table-mob">
         <strong *ngIf="percent_display_selected == true" class="convert-transition" (click)="displayTableData_Percentages()"> % </strong>
         <strong *ngIf="amount_display_selected == true" class="convert-transition" (click)="displayTableData_Amounts()"> Rs </strong>
@@ -179,6 +184,7 @@
       </fieldset>
     </div>
 
+      <!--  STEP = 4   =>   Panel to save Amount per Item  -->
       <div *ngIf="step == 4" class="text-center used-panel mt-3"><!-- Width 95% -->
         <span> Your <strong> {{(Amount == '')? '__' : Amount}} </strong> Amount</span>
         <fieldset class="data-fieldset">
@@ -201,7 +207,8 @@
 
       </div>
 
-      <!-- Graph -->
+      <!-- CHART -->
+      <!--          For All Screens         -->
       <div *ngIf="step == 3 || visualizeChart == true; else elseTemplate">
           <div *ngIf="innerWidth > 757" class="text-center mb-3 planned-graph">
               <fusioncharts
@@ -244,6 +251,7 @@
         </div>
       </div>
 
+      <!-- Footer -->
     <div class="w-100 bg-secondary pt-2 home-foot rounded-top text-center">
         <p class="text-light fw-bolder"> Personal-E-Collection </p>
         <hr width="80%" class="ms-auto me-auto" />
