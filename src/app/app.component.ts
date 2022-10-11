@@ -361,6 +361,10 @@ export class AppComponent implements OnChanges {
   displayTable() {
       this.visualizeTable = true;
 
+      /** Make PlannedPercentage Array to fill with Data */
+      /**           In Desktop, Required => Because Only Showing Planned Percentages in that Screen Size */
+      this.getUnPlannedPercentage();
+
       /** GET USED means - get Used Data Again
        *        CASE => If user adds an item and then checks what Used PLAN has been developed So need to get from DB Again for recent Data Addition
       */
