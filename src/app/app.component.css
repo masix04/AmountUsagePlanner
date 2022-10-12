@@ -2,7 +2,7 @@
     height: 600px;
 }
 .home-body-step-3 {
-    height: 765px;
+    height: 870px;
 }
 .home-body-mob {
   height: max-content;
@@ -281,4 +281,15 @@
         padding: 11px 20px;
         font-weight: 600;
     }
+}
+
+/** Page 1 Buttons Position */
+.save-change-db-btn {
+    left: 40%;
+    right: 40%;
+    font-size: 12px;
+}
+.lets-start-btn {
+    top: 75% !important;
+    bottom: 18% !important;
 }

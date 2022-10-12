@@ -12,6 +12,8 @@ $getters = new Getters();
 $getters->setRequestMethod();
 $getters->setType();
 $getters->setKey();
+$getters->setMonth();
+$getters->setYear();
 
 $date = date('Y-m-d h:i:s');
 
@@ -28,12 +30,24 @@ class Getters {
     public function setKey() {
         $this->key = $_GET['key'];
     }
+    public function setMonth() {
+        $this->month = $_GET['month'];
+    }
+    public function setYear() {
+        $this->year = $_GET['year'];
+    }
 
     public function getKey() {
         return $this->key;
     }
     public function getType() {
         return $this->type;
+    }
+    public function getMonth() {
+        return $this->month;
+    }
+    public function getYear() {
+        return $this->year;
     }
 
     public function setRequestMethod() {
@@ -47,7 +61,7 @@ class Getters {
         $db = new DB_Query;
 
         if($this->type == 'amount') {
-            $getSavedQuery = "SELECT `value` from `amount`";
+            $getSavedQuery = "SELECT `value` from `amount` where `month` = '$this->month' AND `year` = $this->year";
         }
         else if($this->type == 'key_planned_percent' && $this->key != null) {
             $getSavedQuery = "SELECT `planned_percentage` from `save_plan` WHERE `key_name` = $this->key";

@@ -4,6 +4,7 @@ header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
 require_once "../config/db_class.php";
+// include "getPlanned.php";
 
 date_default_timezone_set('Asia/Karachi');// Otherwise it shows -5 hours from PAKISTAN
 
@@ -40,13 +41,15 @@ class GetUsed {
     public function getUsedFromDatabase() {
         $db = new DB_Query;
 
-        $getUsedquery = "SELECT sp.`id`, sp.`key_name`,sp.`planned_percentage`,
+        $getUsedquery = "SELECT am.month, ua.amount_id, sp.`id`, sp.`key_name`,sp.`planned_percentage`,
                                           SUM(ua.`used_amount`) AS `used_amount`
                                           , SUM(ua.`used_percentage`) AS `used_percentage`
                                           , sp.`planned_percentage` - IF(SUM(ua.`used_percentage`), SUM(ua.`used_percentage`), 0) AS `remaining_percentage`
                                       FROM save_plan sp
-                                      LEFT JOIN used_amount ua ON ua.`key_id` = sp.`id`
-                                      GROUP BY sp.`id`";
+                                      RIGHT JOIN used_amount ua ON ua.`key_id` = sp.`id`
+                                      LEFT JOIN amount am ON am.id = ua.`amount_id`
+                                      GROUP BY ua.amount_id, sp.id
+                                      ORDER BY ua.amount_id,sp.id";
 
         $getUsed = $db->rawSQLQuery($getUsedquery);
 
@@ -55,6 +58,8 @@ class GetUsed {
             while($row = $getUsed->fetch_assoc()) {
                 $myArray[] = $row;
             }
+
+            $myArray = $this->formatData($myArray);
 
             $response['AmountPlanner']['Used']['data'] = $myArray;
             $response['message'] = 'Success';
@@ -66,6 +71,33 @@ class GetUsed {
         {
             echo "0 results";
         }
+    }
+
+    /** Data fromatted, Which got from Database */
+    public function formatData($data) {
+
+        $amount_id = $data[0]['amount_id'];
+        // $eachIndex = 0;
+        $innerIndex = 0;
+        foreach($data as $key => $item) {
+            if($key == 0 || $amount_id == $item['amount_id']) {
+                $final_array[$item['month']][$innerIndex]['id'] = $item['id'];
+                $final_array[$item['month']][$innerIndex]['key_name'] = $item['key_name'];
+                $final_array[$item['month']][$innerIndex]['planned_percentage'] = $item['planned_percentage'];
+                $final_array[$item['month']][$innerIndex]['used_amount'] = $item['used_amount'];
+                $final_array[$item['month']][$innerIndex]['used_percentage'] = $item['used_percentage'];
+                $final_array[$item['month']][$innerIndex]['remaining_percentage'] = $item['remaining_percentage'];
+                $final_array[$item['month']][$innerIndex]['amount_id'] = $item['amount_id']; /** It is Repeating, Because Not handeling in Front-edn YET  */
+                $innerIndex++;
+            }
+            else if($amount_id != $item['amount_id']) {
+                $amount_id = $item['amount_id'];
+                // $eachIndex++;
+                $innerIndex = 0;
+            }
+        }
+
+        return $final_array;
     }
 }
 

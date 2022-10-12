@@ -23,6 +23,8 @@ if($request_Method == 'POST') {
 
     $key_id = $array['key_id'];
     $used_amount = $array['used_amount'];
+    $UpdateData_month = $array['UpdateData_month'];
+    $UpdateData_year = $array['UpdateData_year'];
 
     // print_r($plan_percentage);
     // echo($key_id . ' --- ' . $used_amount);
@@ -35,34 +37,35 @@ $date = date('Y-m-d h:i:s');
 
 $db = new DB_Query;
 
-/** Brings Total Amount and Planned Pecentage for the Item_key , User has SELECTED and Sned to server from WEB */
-$getPlannedPercentQuery = "SELECT amount.`value`,`planned_percentage` FROM `save_plan`
-                          JOIN amount ON amount.id = save_plan.`amount_id`
-                          WHERE save_plan.`id` = $key_id";
-
+/** Brings Total Amount and Planned Pecentage for the Item_key , User has SELECTED and Send to server from WEB */
+$getPlannedPercentQuery = "SELECT amount.`id`,amount.`value`,`planned_percentage` FROM `save_plan`,`amount`
+                          WHERE save_plan.`id` = $key_id AND `month` = '$UpdateData_month' AND `year` = $UpdateData_year";
+// echo $getPlannedPercentQuery."\n";
 $getPlannedPercent = $db->rawSQLQuery($getPlannedPercentQuery);
 
 while($row = mysqli_fetch_assoc($getPlannedPercent)) {
+    $amountId = $row['id'];
     $totalAmount = $row['value'];
     $plannedPercent = $row['planned_percentage'];
 }
 
-// echo "\n". $totalAmount . "\n" . $plannedPercent."\n";
+// echo "\n totalAmount: ". $totalAmount . "\n plannedPercentage: " . $plannedPercent."\n Amount Id: ".$amountId. "\n";
 
     $used_percentage = getUsedPercentage($used_amount, $plannedPercent, $totalAmount);
-    // echo $used_percentage."\n";
+    // echo 'used_percent: '.$used_percentage."\n";
 
     $remaining_precent = ($plannedPercent - $used_percentage);
-    // echo $remaining_precent."\n";
+    // echo 'remain_percent: '.$remaining_precent."\n";
 
-    formatArray($key_id, $used_amount, $used_percentage);
+    formatArray($key_id, $used_amount, $used_percentage, $amountId);
 
-    function formatArray($key_id, $used_amount, $used_percentage) {
+    function formatArray($key_id, $used_amount, $used_percentage, $amountId) {
 
         $dataArray['used_amount'][] =
             $key_id . ','
             . $used_amount . ','
-            . $used_percentage ;
+            . $used_percentage . ','
+            . $amountId ;
 
         // print_r($dataArray);
         feedToDatabase($dataArray);
@@ -72,8 +75,8 @@ while($row = mysqli_fetch_assoc($getPlannedPercent)) {
         $db = new DB_Query;
         $globals = array(
             'used_amount' => array(
-                'keys' => '`key_id`,`used_amount`,`used_percentage`',
-                'duplicates' => '`key_id`=VALUES(`key_id`),`used_amount`=VALUES(`used_amount`),`used_percentage`=VALUES(`used_percentage`)',
+                'keys' => '`key_id`,`used_amount`,`used_percentage`,`amount_id`',
+                'duplicates' => '`key_id`=VALUES(`key_id`),`used_amount`=VALUES(`used_amount`),`used_percentage`=VALUES(`used_percentage`),`amount_id`=VALUES(`amount_id`)',
             ),
         );
         foreach($finalArray as $table_name => $data) {

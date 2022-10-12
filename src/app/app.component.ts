@@ -14,6 +14,9 @@ export class AppComponent implements OnChanges {
   PLAN_WHAT = '';
   Amount = 0;
 
+  _DATE = new Date();
+  _MONTH: any;
+
   step = 1;
 
   PlannedData: any;
@@ -48,6 +51,8 @@ export class AppComponent implements OnChanges {
 
   CHART_DATA: any;
 
+  Table_shown = false; /** To show Month Selection OR Not */
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
       this.getScreenWidth();
@@ -62,7 +67,9 @@ export class AppComponent implements OnChanges {
       this.months.forEach((value, key ) => {
         // console.log(key);
         // console.log(value);
-          if(key >= (new Date()).getMonth()) {
+
+        /** Showing 2 month => 1 before current Month */
+          if(key <= (new Date()).getMonth() && key > (new Date()).getMonth()-2) {
               this.monthsFromCurrent.push(value);
           }
       });
@@ -133,10 +140,16 @@ export class AppComponent implements OnChanges {
   /** Used Array set to Initial */
   setUsedArraysToDefault() {
       this.used_remain_amounts = {
-          'amounts' : [],
+          'amounts' : [
+              // 'September' : [],
+              // 'October': [],
+          ],
       };
       this.used_remain_percentages = {
-          'percentages' : [],
+          'percentages' : [
+              // 'September' : [],
+              // 'October': []
+          ],
       };
   }
 
@@ -175,6 +188,7 @@ export class AppComponent implements OnChanges {
       return this.http.get(this.helperService.BASE_URL + 'getUsed.php').subscribe({
           next: (response) => {
             this.usedData = response['AmountPlanner'].Used.data;
+            // console.log('Direct From API: ');
             // console.log(this.usedData);
             this.separateUsedAmountAndPercentage();
           },
@@ -184,7 +198,7 @@ export class AppComponent implements OnChanges {
   addUsedAmount() {
       this.step = 4;
 
-      this.http.get(this.helperService.BASE_URL + 'getters.php?type=amount').subscribe({
+      this.http.get(this.helperService.BASE_URL + 'getters.php?type=amount&month='+( (this._MONTH)? this._MONTH : (this._DATE).toLocaleString('default', { month: 'long'}) )+'&year='+(this._DATE).getFullYear()).subscribe({
           next: (response) => {
             // console.log(response['AmountPlanner'].Planned[0].value);
             this.Amount = response['AmountPlanner'].Planned[0].value;
@@ -198,11 +212,19 @@ export class AppComponent implements OnChanges {
       let url :any; let data: any;
       if(type == 'planned') {
           url = 'savePlanned.php';
-          data  = {'amount_type': this.PLAN_WHAT,'amount': this.Amount,'plan_percentage' : this.plannedPercentages};
+          data  = {
+                      'amount_type': this.PLAN_WHAT,
+                      'amount': this.Amount,
+                      'plan_percentage' : this.plannedPercentages};
       }
       else if(type == 'used') {
           url = 'saveUsed.php';
-          data = {'key_id': this.KEY_SELECTED, 'used_amount': this.SPENT_AMOUNT};
+          data = {
+                    'key_id': this.KEY_SELECTED,
+                    'used_amount': this.SPENT_AMOUNT,
+                    'UpdateData_month': this._MONTH || (this._DATE).toLocaleString('default', { month: 'long'}) , /** If _MONTH not selected then Curent _DATE's Month Send */
+                    'UpdateData_year': this._DATE.getFullYear()
+                };
       }
 
       this.http.post(this.helperService.BASE_URL + url, data).subscribe((response: any) => {
@@ -281,6 +303,10 @@ export class AppComponent implements OnChanges {
   saveSpentAmount() {
       // (this.KEY_SELECTED == undefined)? console.log('No Item Selected.') : console.log(this.KEY_SELECTED);
       // (this.SPENT_AMOUNT == undefined)? console.log('No Amount Added') : console.log(this.SPENT_AMOUNT);
+          // console.log((this._DATE).toLocaleString('default', { month: 'long'}));
+
+      // console.log(this._DATE);
+      /** DATE -Month will also be used - So will be access Directly during Store */
       (this.KEY_SELECTED == undefined || this.SPENT_AMOUNT == undefined)? 'Please fill the requirement.' : this.saveToDatabase('used');
   }
 
@@ -361,6 +387,9 @@ export class AppComponent implements OnChanges {
   displayTable() {
       this.visualizeTable = true;
 
+      /** To Make MONTH OPTION Disable when Table is Shown */
+      this.Table_shown = true;
+
       /** Make PlannedPercentage Array to fill with Data */
       /**           In Desktop, Required => Because Only Showing Planned Percentages in that Screen Size */
       this.getUnPlannedPercentage();
@@ -372,6 +401,13 @@ export class AppComponent implements OnChanges {
   }
   hideTable() {
       this.visualizeTable = false;
+
+      /** To Make MONTH OPTION Enable when Table is Hidden */
+      this.Table_shown = false;
+
+      /** Make Used Data to show in RS after hide Table */
+      this.percent_display_selected = true;
+      this.amount_display_selected = false;
   }
 
   /** Toggle SWITCH To Display Data in Either Percentages OR Amounts */
@@ -454,6 +490,11 @@ export class AppComponent implements OnChanges {
     // console.log(this.dataSource);
   }
 
+
+
+
+
+
   /** Separated Percentages & Amounts for New Feature To Provide User more Choices to Visualize Data */
   separateUsedAmountAndPercentage() {
 /** 1st => Initialize Values to Empty Data =>
@@ -461,11 +502,70 @@ export class AppComponent implements OnChanges {
  */
       this.setUsedArraysToDefault();
 
-      this.usedData.forEach((value: any, key: any) => {
-          // console.log(value);
-          this.used_remain_percentages['percentages'].push({'id': value.id,'used' : (value.used_percentage)? value.used_percentage : '0.0', 'remain' : (value.remaining_percentage)? value.remaining_percentage: '0'});
-          this.used_remain_amounts['amounts'].push({'id': value.id,'used' : (value.used_amount)? value.used_amount: '0' , 'remain' : ( (value.planned_percentage / 100) * this.Amount ) - value.used_amount });
-      });
+      if(this.innerWidth > 575) {
+          this.usedData.forEach((eachMonthValue: any, eachMonthKey: any) => {
+              // console.log(eachMonthValue);
+              Object.values(eachMonthValue).forEach((value: any, key: any) => {
+                // console.log(value);
+                // console.log(key);
+                  this.used_remain_percentages['percentages'][eachMonthValue.month] =
+                  {
+                    'id': value.id,
+                    'used' : (value.used_percentage)? value.used_percentage : '0.0',
+                    'remain' : (value.remaining_percentage)? value.remaining_percentage: '0'
+                  }
+
+                  this.used_remain_amounts['amounts'][eachMonthValue.month] =
+                  {
+                    'id': value.id,
+                    'used' : (value.used_amount)? value.used_amount: '0' ,
+                    'remain' : ( (value.planned_percentage / 100) * this.Amount ) - value.used_amount
+                  }
+              });
+          });
+      } else {
+
+              /** This Collection received in Object Type */
+          Object.entries(this.usedData).forEach((eachMonth: any, key: any) => {
+              // console.log(key);
+              // console.log('selected Month: '); console.log(this._MONTH || this._DATE.toLocaleString('default', {month: 'long'}));
+              // Object.values(value).forEach((item: any, iKey: any) => {
+                  // console.log('array Month: '); console.log(value[0]);
+              //     if(item == ( this._MONTH || (this._DATE).toLocaleString('default', {month: 'long'}) )) {
+              //         console.log(item);
+              //     }
+              // })
+              // console.log('each');
+              // console.log(value);
+              if(eachMonth[0] == ( this._MONTH || (this._DATE).toLocaleString('default', {month: 'long'}) )) {
+                  // console.log(eachMonth[1]);
+                  Object.values(eachMonth[1]).forEach((value: any, iKey: any) => {
+                      // console.log(value);
+                      this.used_remain_percentages['percentages'].push(
+                        {
+                          'id': parseInt(value.id),
+                          'used' : (value.used_percentage)? value.used_percentage : '0.0',
+                          'remain' : (value.remaining_percentage)? value.remaining_percentage: '0'
+                        }
+                      );
+
+                      this.used_remain_amounts['amounts'].push(
+                        {
+                          'id': parseInt(value.id),
+                          'used' : (value.used_amount)? value.used_amount: '0' ,
+                          'remain' : ( (value.planned_percentage / 100) * this.Amount ) - value.used_amount
+                        }
+                      );
+                  });
+                  // console.log('Required for Web: ');
+                  // console.log(this.used_remain_percentages);
+              }
+
+          });
+      }
+
+      this.addEmptyKeysForThoseDontHaveData(this.used_remain_percentages['percentages']);
+      this.addEmptyKeysForThoseDontHaveData(this.used_remain_amounts['amounts']);
 
       this.fillChartData(this.used_remain_percentages['percentages'], 'used');
     //  console.log(this.used_remain_percentages['percentages']);
@@ -474,6 +574,60 @@ export class AppComponent implements OnChanges {
       /** By-default, Display Used Amount Values */
       this.extractKeysAndValues(this.used_remain_amounts['amounts'],'used');
       // console.log(this.used_remain_amounts);
-      // console.log(this.used_remain_percentages['percentages']);
+      // console.log(this.used_remain_amounts['amounts']);
+  }
+
+      /** Filling Remaining Keys with 0 Values */
+    addEmptyKeysForThoseDontHaveData(data: any) {
+        let noFound = false; let BreakException = [];
+
+        (this.plannedPercentages).forEach((value:any, key: any) => {
+            // console.log(key);
+            // console.log(value);
+            /**
+             * Used Try Catch => instead of Break in ForEach
+             *              IT WAS COMPULSARY TO BREAK THE ITERATION, WHEN 'FOUND'
+            */
+            try{
+              data.forEach((item: any, itemKey: any) => {
+                  // console.log(item.id+ ' != '+key);
+                  if(item.id != (key+1)) {
+                      noFound = true;
+                  } else {
+                      noFound = false;
+                      throw BreakException;
+                  }
+              });
+            } catch (e) {
+                if (e !== BreakException) throw e;
+            }
+            if(noFound == true) {
+                data.push(
+                  {
+                    'id': (key+1),
+                    'used' : '0.0',
+                    'remain' : '0'
+                  }
+                );
+            }
+        });
+        // console.log(data.sort(function(a: any,b: any) { return a.id - b.id }));
+        return data.sort(function(a: any,b: any) { return a.id - b.id });
+    }
+
+  /** Extra Functions USED in HTML */
+
+  getAndShowMonthName(i: any, type:any) {
+
+      /** Each time Will bring 1 month prior  */
+      // console.log(new Date(Date.now() + (-30*i)*24*60*60*1000));
+      var date = new Date(Date.now() + (-30*i)*24*60*60*1000);
+
+      /** If number type received, Then show month's Index */
+      if(type == 'number') {
+          return (date.getMonth()+1);
+      } else { /** else 'name' type received, Then show month's name */
+          return date.toLocaleString('default', { month: 'long'} ) + '  '+ date.getFullYear();
+      }
   }
 }
