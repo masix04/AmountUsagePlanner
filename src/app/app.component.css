@@ -89,14 +89,25 @@
     margin-bottom:0;
 }
 .month-row ul li {
-    width: max-content;
+    width: 25%;
 }
+
+/** Added Border to Items [Month] */
+.month-row ul li {
+  border-right: silver solid 1px;
+}
+
+/** Removed Last Item Border [Month] */
+.month-row ul li:last-child {
+    border: 0;
+}
+
 .ht-40 {
   height: 40px;
 }
 .months-list-mob {
   height: 52px;
-  margin-left: 5px;
+  /* margin-left: 5 px; */
   width: 25%;
   border-top-right-radius: 5px;
 }
@@ -115,12 +126,23 @@
 .keys-list {
   height: 50px;
 }
+.keys-list ul {
+    width: 100%;
+}
+
+/** Made width of 'Keys' Items and Heading 13px more in DESKTOP */
+.keys-list ul li {
+    margin-right: -18px;
+    margin-left: -3px;
+}
+
 .keys-list-mob {
     padding-right: 0;
 }
 .keys-list-mob ul {
     width: 50%;
 }
+
 .keys-list-tab {
     padding-right: 0;
     width: 30%;
@@ -155,7 +177,7 @@
 .values-list {
   height: max-content;
   padding: 6px 10px 6px 0;
-  margin-left: 15px;
+  /* margin-left: 15px; */
   border-left: 1px solid dodgerblue;
 }
 .values-list ul {
@@ -173,15 +195,68 @@
     padding-right: 0;
     width: 70%;
 }
+
+/** Made DESKTOP's used Amount Data  together- horizontally */
+.values-list .values-list-ul-1,.values-list .values-list-ul-2 {
+    width: 25%;
+    float: left;
+}
+
+/** Made DESKTOP's used Amount Data Centered */
+.values-list .values-list-ul-1 li,.values-list .values-list-ul-2 li {
+    margin: 0 auto;
+    border-bottom: 1px rgb(230, 226, 226) solid;
+}
+
+.values-list .values-list-ul-1 li:last-child,.values-list .values-list-ul-2 li:last-child {
+    border: 0;
+}
+
 .text-bg-contrast {
     color: white;
     background-color: rgb(63, 145, 228);
 }
+
+/** Bottom DogerBlue Plate Design Correction */
 #bottom-border {
-    height: 52px;
+    height: 54px;
     margin-top: -22px;
     margin-right: -13px;
+    margin-left: -13px;
 }
+@media screen and (min-width: 990px) and (max-width: 1999px) {
+  #bottom-border {
+      height: 52px;
+      margin-top: -22px;
+  }
+}
+@media screen and (min-width: 757px) and (max-width: 990px) {
+    #bottom-border {
+        height: 51px;
+        margin-top: -22px;
+    }
+    .values-list .values-list-ul-1,.values-list .values-list-ul-2 {
+        margin-top: 5px;
+        width: 45%;
+    }
+    .months-list .month-row ul li {
+        width: 45%;
+    }
+}
+@media screen and (max-width: 757px) {
+    .values-list .values-list-ul-1,.values-list .values-list-ul-2 {
+        margin-top: 5px;
+        width: 45%;
+    }
+    .months-list .month-row ul li {
+        width: 45%;
+    }
+    #bottom-border {
+        height: 50px;
+        margin-top: -23px;
+    }
+}
+
 .remain-not-spend {
     margin-bottom: 10px;
     background-color: rgb(125, 155, 202);
@@ -292,4 +367,17 @@
 .lets-start-btn {
     top: 75% !important;
     bottom: 18% !important;
+}
+
+@media screen and (max-width: 1199px) {
+    .keys-list ul li {
+      font-size: 14px;
+    }
+}
+
+.fs-7 {
+    font-size: 0.80rem !important;
+}
+.fs-8 {
+  font-size: 0.50rem !important;
 }
