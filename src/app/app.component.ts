@@ -95,6 +95,8 @@ export class AppComponent implements OnChanges {
   }
 
 
+
+
   fillChartData(data :any, type: any) {
 
     if(type == 'category') {

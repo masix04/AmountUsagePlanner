@@ -1,0 +1,97 @@
+
+<div class="" [ngClass]="(innerWidth > 575)? 'home-body-step-3': 'home-body-mob'" *ngIf="planVisualizeTable == true, Else elseTemplate">
+
+  <div class="d-flex justify-content-start">
+      <span [routerLink]="['/plan/create-plan']" style="cursor:pointer;" class="mt-1 ms-1"><img class="back-arrow" src="/assets/images/back-arrow-solid-32.png" /></span>
+  </div>
+  <div class="d-flex justify-content-center">
+    <span class="fs-4 rounded p-1 temp-3-body"> My <strong> {{PLAN_WHAT}} </strong> Plan </span>
+  </div>
+
+  <!--  Tables  -->
+  <!-- For Tablets and Desktop-->
+  <!-- <div *ngIf="innerWidth > 990" class="w-100 row align-items-start justify-content-center planned-table"> -->
+    <div *ngIf="innerWidth > 575" class="w-100 row align-items-start justify-content-center planned-table">
+      <div [ngClass]="(innerWidth < 990)? 'col-4': 'col-3'" class="text-bg-light d-flex keys-list">
+          <ul>
+              <li class="p-2 fs-4 text-bg-contrast text-center"><strong>#</strong></li>
+              <li *ngFor="let key of dataKeys" class="border border-end-0 border-top-0 border-primary text-capitalize mt-2 p-1" [ngClass]="(innerWidth < 1199 && innerWidth > 991)? 'fs-6' : ( (innerWidth < 991)? 'fs-7' : 'fs-5')">
+                  <strong>{{key}}</strong>
+              </li>
+              <li class="p-2 fs-4 text-bg-contrast text-center"><strong>#</strong></li>
+          </ul>
+      </div>
+      <div class="col-1 text-bg-light percentage-list">
+          <ul>
+              <li class="p-2 fs-4 text-bg-contrast text-center"> <strong>%</strong> </li>
+              <li *ngFor="let value of dataValues" class="border border-top-0 border-primary text-center mt-2 p-1" [ngClass]="(innerWidth < 1199 && innerWidth > 991)? 'fs-6' : ( (innerWidth < 991)? 'fs-7' : 'fs-5')">{{value}}</li>
+              <li class="p-2 fs-4 text-bg-contrast text-center"><strong>%</strong></li>
+          </ul>
+      </div>
+      <!-- <span class="remain-not-spend bottom-0 start-50 position-absolute translate-middle" >Remaining Amount: <strong> {{remainAmount}} Rs </strong>with <strong>{{remainPercentage}} % </strong></span> -->
+  </div>
+  <p> CHart is going to Show too.</p>
+  <!-- IN PROGRESS ---   -->
+  <!-- For Tablets -->
+  <!-- <div *ngIf="innerWidth > 575 && innerWidth < 991" class="w-100 row planned-table-tab"> -->
+
+     <!-- Width = 30% -->
+    <!-- <ul class="text-bg-light keys-list-tab">
+        <li class="p-2 fs-6 text-bg-contrast text-center"><strong>#</strong></li>
+        <li *ngFor="let key of dataKeys" class="border border-top-0 border-primary text-capitalize mt-2 p-1 key-item-tab">
+            <strong>{{key}}</strong>
+        </li>
+        <li class="p-2 fs-6 text-bg-contrast text-center"><strong>#</strong></li>
+    </ul> -->
+
+    <!-- width = 70% -->
+    <!-- <ul class="values-list-tab">
+        <li class="p-2 fs-6 text-bg-contrast month-item-tab text-center">
+            <strong>{{monthsFromCurrent[0]}}</strong>
+        </li>
+        <li class="p-2 fs-6 text-bg-contrast month-item-tab text-center">
+            <strong>{{monthsFromCurrent[1]}}</strong>
+        </li>
+        <li *ngFor="let value of dataValues" class="border border-top-0 border-primary text-center mt-2 p-1 value-item-tab">
+            {{value.used}} Rs
+        </li>
+        <li class="p-2 text-bg-contrast ht-40"></li>
+    </ul> -->
+
+    <!-- Hidden Percentage List - not necessory Data -->
+    <!-- <span class="remain-not-spend position-absolute translate-middle bottom-0 start-50">Remaining Amount: <strong> {{remainAmount}} Rs </strong>with <strong>{{remainPercentage}} % </strong></span> -->
+
+<!-- </div> -->
+
+<!--  Used Amount changer   => 1)- in Percentage  2)- in Rupees  -->
+<!--  For MOBILE  -->
+<!-- <div *ngIf="innerWidth < 576 && visualizeTable == true" class="convert-table-mob">
+  <strong *ngIf="percent_display_selected == true" class="convert-transition" (click)="displayTableData_Percentages()"> % </strong>
+  <strong *ngIf="amount_display_selected == true" class="convert-transition" (click)="displayTableData_Amounts()"> Rs </strong>
+</div> -->
+
+  <!-- For Mobile -->
+  <div *ngIf="innerWidth < 576" class="w-100 row planned-table-tab">
+       <ul class="text-bg-light keys-list-mob w-50">
+          <li class="p-2 fs-6 text-bg-contrast text-center">
+              <strong>#</strong>
+          </li>
+          <li *ngFor="let key of dataKeys" class="border border-top-0 border-primary text-capitalize mt-3 p-1 key-item-mob">
+              <strong>{{key}}</strong>
+          </li>
+          <li class="p-2 fs-6 text-bg-contrast text-center"><strong>#</strong></li>
+      </ul>
+      <ul class="text-bg-light keys-list-mob w-50">
+          <li class="p-2 fs-6 text-bg-contrast text-center"> <strong>%</strong> </li>
+          <li *ngFor="let value of dataValues" class="border border-top-0 border-primary text-center p-1 ext-m-10" [ngClass]="(innerWidth < 1199 && innerWidth > 991)? 'fs-5' : ( (innerWidth < 991)? 'fs-6' : 'fs-4')">{{value}}</li>
+          <li class="p-2 fs-6 text-bg-contrast text-center"><strong>%</strong></li>
+      </ul>
+      <p> CHart is going to Show too.</p>
+  </div>
+
+</div>
+
+<!--  Waiting Else Template -->
+<ng-template #elseTemplate class="home-body">
+  Loading
+</ng-template>

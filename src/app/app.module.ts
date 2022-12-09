@@ -11,19 +11,27 @@ import * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion'
 import *as Maps from 'fusioncharts/fusioncharts.maps';
 
 import { HelperService } from './helperService/helper.service';
+import { HeaderComponent } from './common/header/header.component';
+import { FooterComponent } from './common/footer/footer.component';
+import { MainComponent } from './main/main.component';
+import { AppRoutingModule } from './app-routing.module'; /** For app /root routing */
 
 FusionChartsModule.fcRoot(FusionCharts,Maps, Charts, FusionTheme)
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    FooterComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     FusionChartsModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule /** For app /root routing */
   ],
   providers: [HelperService],
   bootstrap: [AppComponent]

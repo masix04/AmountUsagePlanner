@@ -1,0 +1,17 @@
+<div class="home-body mt-5">
+    <div class="text-center">
+        <fieldset class="data-fieldset">
+            <legend class="data-legend text-bg-contrast rounded-2 p-1"> Create a New <strong></strong> Plan </legend>
+            <div class="form-floating top-4 mb-3 w-50">
+                <input class="form-control" type="text" name="plan-item" id="plan-item" [(ngModel)]="PLAN_ITEM" />
+                <label for="floatingInput">Add an item of plan</label>
+            </div>
+            <div class="form-floating top-4 mb-3 w-50">
+                <input class="form-control" type="number" name="plan-percentage" id="plan-percentage" [(ngModel)]="PLAN_PERCENTAGE" />
+                <label for="floatingInput">Add Planned Percentage</label>
+            </div>
+            <button class="submit-data btn btn-dark border" (click)="savePlan()"> Save </button>
+            <button class="submit-data btn btn-info border" (click)="viewPlan()"> View </button>
+        </fieldset>
+    </div>
+</div>

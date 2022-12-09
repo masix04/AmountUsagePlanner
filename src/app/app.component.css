@@ -1,273 +1,265 @@
 .home-body {
-    height: 600px;
+  height: 600px;
 }
 .home-body-step-3 {
-    height: 870px;
+  height: 870px;
 }
 .home-body-mob {
-  height: max-content;
+height: max-content;
 }
 
 .container .home-head {
-    height: 80px;
-    background: linear-gradient(#eee, rgb(19, 82, 141));
-    background: -webkit-linear-gradient(rgb(28, 100, 168), rgb(44, 133, 218), rgb(110, 174, 211));
+  height: 80px;
+  background: linear-gradient(#eee, rgb(19, 82, 141));
+  background: -webkit-linear-gradient(rgb(28, 100, 168), rgb(44, 133, 218), rgb(110, 174, 211));
 }
 .container .home-head p {
-    font-family: Arial, Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Arial, Verdana, Geneva, Tahoma, sans-serif;
 }
 .container .home-foot {
-    height: max-content;
-    padding-bottom: 10px;
-    background: -webkit-linear-gradient(rgb(231, 228, 228), rgba(141, 138, 138, 0.966));
+  height: max-content;
+  padding-bottom: 10px;
+  background: -webkit-linear-gradient(rgb(231, 228, 228), rgba(141, 138, 138, 0.966));
+  background: linear-gradient(rgb(231, 228, 228), rgba(141, 138, 138, 0.966));
 }
 .bg-body {
-    margin-top: 50px;
+  margin-top: 50px;
 }
 .temp-1-body {
-  margin-top: 40px;
   width: max-content;
   box-shadow: rgb(189, 187, 187) 2px 2px 8px;
   cursor: default;
+  margin: 40px auto 50px;
 }
 .temp-2-body {
-  margin-top: 40px;
-  width: max-content;
-  background-color: rgb(94, 145, 212);
-  box-shadow: rgb(189, 187, 187) 2px 5px 6px;
-  cursor: default;
+margin-top: 40px;
+width: max-content;
+background-color: rgb(94, 145, 212);
+box-shadow: rgb(189, 187, 187) 2px 5px 6px;
+cursor: default;
 }
 .temp-3-body {
-    margin-top: 40px;
-    width: max-content;
-    box-shadow: rgb(189, 187, 187) 1px 3px 8px;
-    cursor: default;
+  margin-top: 40px;
+  width: max-content;
+  box-shadow: rgb(189, 187, 187) 1px 3px 8px;
+  cursor: default;
 }
 
 .convert-table-mob {
-    height: max-content;
-    margin-top: 20px;
-    left: 90% !important;
-    top: 10% !important;
+  height: max-content;
+  margin-top: 20px;
+  left: 90% !important;
+  top: 10% !important;
 }
 .planned-table-tab, .convert-table-mob {
-    --bs-gutter-x: 0;
+  --bs-gutter-x: 0;
 }
 /** Shadow Table Head of Keys List */
 .planned-table-tab .keys-list-mob .text-center {
-    box-shadow: 4px 1px 5px black;
+  box-shadow: 4px 1px 5px black;
 }
 
 /** Shadow Table Head of Spent and Remain Headings */
 .planned-table-tab .values-list-mob li  {
-    box-shadow: 3px 1px 5px black;
+  box-shadow: 3px 1px 5px black;
 }
 
 /** Shadow to Key Items */
 .planned-table-tab .keys-list-mob .key-item-mob {
-    box-shadow: 1px 2px 2px #9ea9b1;
+  box-shadow: 1px 2px 2px #9ea9b1;
 }
 
 .planned-table,.planned-table-mob,.planned-table-tab {
-    height:inherit;
-    padding-top: 80px;
+  height:inherit;
+  padding-top: 80px;
 }
 .planned-table-mob {
-  margin: 0 auto;
+margin: 0 auto;
 }
 
 /* .planned-graph {
-    height: 765px;
+  height: 765px;
 } */
 
 .months-list {
-    height: 52px;
-    margin-left: 5px;
+  height: 52px;
+  margin-left: 5px;
 }
 .months-list .month-row ul {
-    display: flex;
-    margin-bottom:0;
+  display: flex;
+  margin-bottom:0;
 }
 .month-row ul li {
-    width: 25%;
+  width: 25%;
 }
 
 /** Added Border to Items [Month] */
 .month-row ul li {
-  border-right: silver solid 1px;
+border-right: silver solid 1px;
 }
 
 /** Removed Last Item Border [Month] */
 .month-row ul li:last-child {
-    border: 0;
+  border: 0;
 }
 
 .ht-40 {
-  height: 40px;
+height: 40px;
 }
 .months-list-mob {
-  height: 52px;
-  /* margin-left: 5 px; */
-  width: 25%;
-  border-top-right-radius: 5px;
+height: 52px;
+/* margin-left: 5 px; */
+width: 25%;
+border-top-right-radius: 5px;
 }
 .months-list-mob .month-row-mob ul {
-  display: flex;
-  margin-bottom:0;
+display: flex;
+margin-bottom:0;
 }
 .month-row-mob ul li {
-  width: max-content;
-  height: 10%;
+width: max-content;
+height: 10%;
 }
 .month-item-tab {
-    width: 50%;
-    float: left;
+  width: 50%;
+  float: left;
 }
 .keys-list {
-  height: 50px;
+height: 50px;
 }
 .keys-list ul {
-    width: 100%;
+  width: 100%;
 }
 
 /** Made width of 'Keys' Items and Heading 13px more in DESKTOP */
 .keys-list ul li {
-    margin-right: -18px;
-    margin-left: -3px;
+  margin-right: -18px;
+  margin-left: -3px;
 }
 
 .keys-list-mob {
-    padding-right: 0;
+  padding-right: 0;
 }
 .keys-list-mob ul {
-    width: 50%;
+  width: 50%;
 }
 
 .keys-list-tab {
-    padding-right: 0;
-    width: 30%;
+  padding-right: 0;
+  width: 30%;
 }
 .keys-list-tab ul {
-    width: 30%;
+  width: 30%;
 }
 /* .keys-list-mob ul {
-    width: 25%;
+  width: 25%;
 } */
 
 .key-item-mob {
-    overflow-x: scroll;
+  overflow-x: scroll;
 }
 .key-item-mob,.month-item-mob,.value-item-mob, .used-value-item-mob {
-    font-size: 12px;
+  font-size: 12px;
 }
 .key-item-tab,.month-item-tab,.value-item-tab {
-    font-size: 13px;
+  font-size: 13px;
 }
 .keys-list-tab {
-    padding-left: 0;
-    overflow-x: scroll;
+  padding-left: 0;
+  overflow-x: scroll;
 }
 .percentage-list {
-  height: 50px;
-  padding: 0;
+height: 50px;
+padding: 0;
 }
 .percentage-list ul {
-  padding: 0;
+padding: 0;
 }
 .values-list {
-  height: max-content;
-  padding: 6px 10px 6px 0;
-  /* margin-left: 15px; */
-  border-left: 1px solid dodgerblue;
+height: max-content;
+padding: 6px 10px 6px 0;
+/* margin-left: 15px; */
+border-left: 1px solid dodgerblue;
 }
 .values-list ul {
-  padding: 0;
+padding: 0;
 }
 
 .values-list ul li {
-    width: 110px;
+  width: 110px;
 }
 .values-list-mob {
-    padding-left: 0;
+  padding-left: 0;
 }
 .values-list-tab {
-    padding-left: 0;
-    padding-right: 0;
-    width: 70%;
+  padding-left: 0;
+  padding-right: 0;
+  width: 70%;
 }
 
 /** Made DESKTOP's used Amount Data  together- horizontally */
 .values-list .values-list-ul-1,.values-list .values-list-ul-2 {
-    width: 25%;
-    float: left;
+  width: 25%;
+  float: left;
 }
 
 /** Made DESKTOP's used Amount Data Centered */
 .values-list .values-list-ul-1 li,.values-list .values-list-ul-2 li {
-    margin: 0 auto;
-    border-bottom: 1px rgb(230, 226, 226) solid;
+  margin: 0 auto;
+  border-bottom: 1px rgb(230, 226, 226) solid;
 }
 
 .values-list .values-list-ul-1 li:last-child,.values-list .values-list-ul-2 li:last-child {
-    border: 0;
+  border: 0;
 }
 
 .text-bg-contrast {
-    color: white;
-    background-color: rgb(63, 145, 228);
+  color: white;
+  background-color: rgb(63, 145, 228);
 }
 
 /** Bottom DogerBlue Plate Design Correction */
 #bottom-border {
-    height: 54px;
-    margin-top: -22px;
-    margin-right: -13px;
-    margin-left: -13px;
+  height: 54px;
+  margin-top: -22px;
+  margin-right: -13px;
+  margin-left: -13px;
 }
 @media screen and (min-width: 990px) and (max-width: 1999px) {
-  #bottom-border {
-      height: 52px;
-      margin-top: -22px;
-  }
+#bottom-border {
+    height: 52px;
+    margin-top: -22px;
+}
 }
 @media screen and (min-width: 757px) and (max-width: 990px) {
-    #bottom-border {
-        height: 51px;
-        margin-top: -22px;
-    }
-    .values-list .values-list-ul-1,.values-list .values-list-ul-2 {
-        margin-top: 5px;
-        width: 45%;
-    }
-    .months-list .month-row ul li {
-        width: 45%;
-    }
+  #bottom-border {
+      height: 51px;
+      margin-top: -22px;
+  }
+  .values-list .values-list-ul-1,.values-list .values-list-ul-2 {
+      margin-top: 5px;
+      width: 45%;
+  }
+  .months-list .month-row ul li {
+      width: 45%;
+  }
 }
 @media screen and (max-width: 757px) {
-    .values-list .values-list-ul-1,.values-list .values-list-ul-2 {
-        margin-top: 5px;
-        width: 45%;
-    }
-    .months-list .month-row ul li {
-        width: 45%;
-    }
-    #bottom-border {
-        height: 50px;
-        margin-top: -23px;
-    }
+  .values-list .values-list-ul-1,.values-list .values-list-ul-2 {
+      margin-top: 5px;
+      width: 45%;
+  }
+  .months-list .month-row ul li {
+      width: 45%;
+  }
+  #bottom-border {
+      height: 50px;
+      margin-top: -23px;
+  }
 }
 
 .remain-not-spend {
-    margin-bottom: 10px;
-    background-color: rgb(125, 155, 202);
-    width: max-content;
-    padding: 10px;
-    color: white;
-    border-radius: 5px;
-    border: 1px blue solid;
-}
-.remain-not-spend-575 {
-  margin-bottom: -60px;
+  margin-bottom: 10px;
   background-color: rgb(125, 155, 202);
   width: max-content;
   padding: 10px;
@@ -275,109 +267,133 @@
   border-radius: 5px;
   border: 1px blue solid;
 }
+.remain-not-spend-575 {
+margin-bottom: -60px;
+background-color: rgb(125, 155, 202);
+width: max-content;
+padding: 10px;
+color: white;
+border-radius: 5px;
+border: 1px blue solid;
+}
 
 .fusion-chart {
-    width: 800px;
+  width: 800px;
 }
 
 
 .used-panel {
-    height: max-content;
-    padding-bottom: 100px;
-    width: 95%;
-    margin: 0 auto;
+  height: max-content;
+  padding-bottom: 100px;
+  width: 95%;
+  margin: 0 auto;
 }
 
 .data-fieldset {
-    border: 1px solid dodgerblue;
-    border-radius: 5px;
+  border: 1px solid dodgerblue;
+  border-radius: 5px;
 }
 .data-fieldset select, .data-fieldset div {
-    margin: 3px auto;
+  margin: 3px auto;
 }
 .data-fieldset .submit-data, .data-fieldset .visualize-data {
-    padding: 5px 10px;
-    margin-left: 10px;
+  padding: 5px 10px;
+  margin-left: 10px;
 }
 
 .data-fieldset .submit-data:active {
-    background-color: rgb(57, 104, 57);
+  background-color: rgb(57, 104, 57);
 }
 .data-legend {
-    font-weight: 600;
+  font-weight: 600;
 }
 .used-value-item-mob span {
-    padding-bottom: 3px;
-    width: 50%;
-    /* margin-bottom: 10px; */
+  padding-bottom: 3px;
+  width: 50%;
+  /* margin-bottom: 10px; */
 }
 
 .back-arrow {
-    box-shadow: 1px 1px 3px rgb(48, 75, 83);
-    border-radius: 8px;
+  box-shadow: 1px 1px 3px rgb(48, 75, 83);
+  border-radius: 8px;
 }
 
 @media screen and (max-width: 340px) {
-    .visualize-data {
-        width:80%;
-        margin-left: 0;
-    }
+  .visualize-data {
+      width:80%;
+      margin-left: 0;
+  }
 }
 
 /** Converter CSS  */
 .convert-transition {
-    margin-left: 4px;
-    background-color: rgb(15, 122, 228);
-    padding: 0 3px;
-    /* border-right: white 1px solid;
-    border-bottom: white 1px solid; */
-    border-radius: 6px;
-    font-size: 18px;
-    color: white;
-    animation: MoveUpDown 1s linear infinite;
-    box-shadow: 2px 2px 3px black;
-    /* position: absolute; */
+  margin-left: 4px;
+  background-color: rgb(15, 122, 228);
+  padding: 0 3px;
+  /* border-right: white 1px solid;
+  border-bottom: white 1px solid; */
+  border-radius: 6px;
+  font-size: 18px;
+  color: white;
+  animation: MoveUpDown 1s linear infinite;
+  box-shadow: 2px 2px 3px black;
+  /* position: absolute; */
 }
 @keyframes MoveUpDown {
-  0% {
-      transform: translate(0,0);
-  }
-  25% {
-      transform: translateY(2px);
-  }
-  100% {
-      transform: translate(2px, 0);
-  }
+0% {
+    transform: translate(0,0);
+}
+25% {
+    transform: translateY(2px);
+}
+100% {
+    transform: translate(2px, 0);
+}
 }
 
 /** Show Save button a little bigger on Desktop  */
 @media screen and (min-width: 757px) {
-    .data-fieldset .submit-data {
-        padding: 11px 20px;
-        font-weight: 600;
-    }
+  .data-fieldset .submit-data {
+      padding: 11px 20px;
+      font-weight: 600;
+  }
 }
 
 /** Page 1 Buttons Position */
 .save-change-db-btn {
-    left: 40%;
-    right: 40%;
-    font-size: 12px;
+  left: 40%;
+  right: 40%;
+  font-size: 12px;
 }
 .lets-start-btn {
-    top: 75% !important;
-    bottom: 18% !important;
+  top: 75% !important;
+  bottom: 18% !important;
 }
 
 @media screen and (max-width: 1199px) {
-    .keys-list ul li {
-      font-size: 14px;
-    }
+  .keys-list ul li {
+    font-size: 14px;
+  }
 }
 
 .fs-7 {
-    font-size: 0.80rem !important;
+  font-size: 0.80rem !important;
 }
 .fs-8 {
-  font-size: 0.50rem !important;
+font-size: 0.50rem !important;
+}
+
+/** NEW */
+
+.main-btns {
+    box-shadow: #9ea9b1 2px 2px 2px;
+}
+
+@media screen and (max-width: 420px) {
+    .main-btns {
+        width:100%;
+    }
+}
+.ext-m-10 {
+  margin-top: 10px !important;
 }
