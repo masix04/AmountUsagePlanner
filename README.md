@@ -75,8 +75,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
   ------------
   - Saves You amount Type, Amount and Amount Month for and Amount Year for.
   - Create a plan ** => ** Add an item with Percentage | View too, So if you need to view before making an addition of an item in a plan.
-        * If percentage total in Database went equal to 100 -> it will not update in Database.
-        * If same Key_name typed again OR by mistake OR you thought of to update it => IT WILL BE UPDATE the % and will not add another item in a plan.
+      * If percentage total in Database went equal to 100 -> it will not update in Database.
+      * If same Key_name typed again OR by mistake OR you thought of to update it => IT WILL BE UPDATE the % and will not add another item in a plan.
   - You can route back too from View a plan to Create a plan.
   - Responsive has done too For above Features.
       * For Desktop
