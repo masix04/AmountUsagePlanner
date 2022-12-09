@@ -70,8 +70,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
   1- Instead of Starting the Planned PERCENTAGE process from [.JSON] File and the update here and apply changes to Database. Do it other Way. Which is -> Provide a feature to **Create Planned Items with Percentages**  when created it **->** save to Database **=>** move to Home page **=>** Show button to **Update the Created Plan** If came from Created Plan process. Otherwise the above mentioned [create-new].   **==>** then Start process which is already working. 
   
-  ## [Tuesday 6th Devember 2022] 
   ## Started the above process
+  ## [Tuesday 6th Devember 2022] 
   ------------
   - Saves You amount Type, Amount and Amount Month for and Amount Year for.
   - Create a plan ** => ** Add an item with Percentage | View too, So if you need to view before making an addition of an item in a plan.
