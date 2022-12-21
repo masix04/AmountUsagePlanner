@@ -76,7 +76,7 @@ export class AppComponent implements OnChanges {
               this.monthsFromCurrent.push(value);
           }
       });
-      console.log(this.monthsFromCurrent);
+      // console.log(this.monthsFromCurrent);
 
     //   this.plannedPercentages.push(
     //     { 'hidden_save' : 25  },

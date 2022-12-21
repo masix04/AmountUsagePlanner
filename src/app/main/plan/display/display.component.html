@@ -1,8 +1,9 @@
 
 <div class="" [ngClass]="(innerWidth > 575)? 'home-body-step-3': 'home-body-mob'" *ngIf="planVisualizeTable == true, Else elseTemplate">
 
-  <div class="d-flex justify-content-start">
-      <span [routerLink]="['/plan/create-plan']" style="cursor:pointer;" class="mt-1 ms-1"><img class="back-arrow" src="/assets/images/back-arrow-solid-32.png" /></span>
+  <div class="d-flex justify-content-between">
+      <span [routerLink]="['/plan/create-plan']" title="Back to create Plan" style="cursor:pointer;" class="mt-1 ms-1 border rounded p-1"><img class="back-arrow" src="/assets/images/back-arrow-solid-32.png" /> Create </span>
+      <span [routerLink]="['/usage/manage-spent']" title="move to Usage store" style="cursor:pointer; box-shadow:1px 2px 2px rgb(139, 153, 168);" class="mt-1 ms-1 btn btn-outline-secondary"> Store Usage </span>
   </div>
   <div class="d-flex justify-content-center">
     <span class="fs-4 rounded p-1 temp-3-body"> My <strong> {{PLAN_WHAT}} </strong> Plan </span>

@@ -1,3 +1,37 @@
-<p>
-  manage works!
-</p>
+<div class="home-body">
+    <div class="d-flex justify-content-start">
+        <span [routerLink]="['/home']" title="Back to Home" style="cursor:pointer;" class="mt-1 ms-1 border rounded p-1"><img class="back-arrow" src="/assets/images/back-arrow-solid-32.png" /> Home </span>
+    </div>
+    <div class="text-center mt-5">
+        <fieldset class="data-fieldset">
+            <legend class="data-legend text-bg-contrast rounded-2 p-1 ps-2 pe-2"> <u> Fill your Usage </u> for the plan you have designed </legend>
+            <!-- <div class="form-floating top-4 mb-3 w-50">
+                <input class="form-control" type="text" name="usage-item" id="usage-item" [(ngModel)]="USED_ITEM" />
+                <label for="floatingInput">Add an item of plan</label>
+            </div> -->
+            <div name="below-salary-save" class="d-flex justify-content-center">
+                <select #month [(ngModel)]="_MONTH" name="months_dropdown" class="dropdown form-select me-1" [ngClass]="(innerWidth < 750)? 'w-50' : 'w-25'"> <!-- get Amount on Each SELECT -->
+                    <option class="dropdown-item" disabled> Months </option>
+                    <option class="dropdown-item" *ngFor="let value of months; let i=index" value="{{value}}">{{value}}</option> <!-- Bring 6 Months Previous than Current Month --><!-- {{getAndShowMonthName(i,'name').split(' ')[0]}}--><!-- {{getAndShowMonthName(i,'name')}}-->
+                </select>
+                <select #year [(ngModel)]="_YEAR" name="years_dropdown" class="dropdown form-select w-25 ms-1"> <!-- get Amount on Each SELECT -->
+                  <option class="dropdown-item" disabled> Years </option>
+                  <option class="dropdown-item" *ngFor="let value of years; let i=index" value="{{value}}">{{value}}</option> <!-- Bring 6 Months Previous than Current Month -->
+              </select>
+            </div>
+            <strong> Select Item </strong>
+              <select #key [(ngModel)]="KEY_SELECTED" class="form-select dropdown w-50 text-center">
+                  <option class="dropdown-item" disabled> Select the item </option>
+                  <option class="dropdown-item" *ngFor="let key of plannedKeys; let i=index" value="{{i+1}}">{{key}}</option>
+              </select>
+            <div class="form-floating top-4 mb-3 w-50">
+                <input #percentage class="form-control" type="number" name="usage-percentage" id="usage-percentage" [(ngModel)]="USED_PERCENTAGE" />
+                <label for="floatingInput">Add Used Percentage</label>
+            </div>
+            <button class="submit-data btn btn-dark border" (click)="saveUsage()"> Save </button>
+            <button class="submit-data btn btn-info border" (click)="viewUsage()"> View </button>
+        </fieldset>
+    </div>
+</div>
+
+<!-- <app-get-plan style="display: none;" [key_items]=""></app-get-plan> -->

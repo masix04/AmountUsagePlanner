@@ -41,15 +41,19 @@ class GetUsed {
     public function getUsedFromDatabase() {
         $db = new DB_Query;
 
+        $month = $this->data_array['month'];
+        $year = $this->data_array['year'];
+
         $getUsedquery = "SELECT am.month, ua.amount_id, sp.`id`, sp.`key_name`,sp.`planned_percentage`,
-                                          SUM(ua.`used_amount`) AS `used_amount`
-                                          , SUM(ua.`used_percentage`) AS `used_percentage`
-                                          , sp.`planned_percentage` - IF(SUM(ua.`used_percentage`), SUM(ua.`used_percentage`), 0) AS `remaining_percentage`
-                                      FROM save_plan sp
-                                      RIGHT JOIN used_amount ua ON ua.`key_id` = sp.`id`
-                                      LEFT JOIN amount am ON am.id = ua.`amount_id`
-                                      GROUP BY ua.amount_id, sp.id
-                                      ORDER BY ua.amount_id,sp.id";
+                                SUM(ua.`used_amount`) AS `used_amount`
+                              , SUM(ua.`used_percentage`) AS `used_percentage`
+                              , sp.`planned_percentage` - IF(SUM(ua.`used_percentage`), SUM(ua.`used_percentage`), 0) AS `remaining_percentage`
+                            FROM save_plan sp
+                            RIGHT JOIN used_amount ua ON ua.`key_id` = sp.`id`
+                            LEFT JOIN amount am ON am.id = ua.`amount_id`
+                            WHERE am.month = '$month' AND am.year = $year
+                            GROUP BY ua.amount_id, sp.id
+                            ORDER BY ua.amount_id,sp.id";
 
         $getUsed = $db->rawSQLQuery($getUsedquery);
 

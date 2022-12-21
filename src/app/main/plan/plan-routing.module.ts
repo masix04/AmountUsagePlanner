@@ -11,7 +11,8 @@ const routes: Routes = [
       { path: 'create-plan', component: CreateComponent },
       { path: 'display-plan', component: PlanDisplayComponent },
       { path: '', redirectTo: 'create-plan', pathMatch: 'full' }
-    ] },
+    ]
+  },
 
 ];
 

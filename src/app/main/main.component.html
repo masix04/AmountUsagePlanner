@@ -1,55 +1,77 @@
 
-<div class="home-body">
+<div [ngClass]="(innerWidth < 750)? 'home-body-mob mb-5': 'home-body'">
 
     <div class="fs-4 rounded p-2 temp-1-body"> Your <strong> {{(PLAN_WHAT == '')? '__' : PLAN_WHAT}} </strong> Usage Planner </div>
 
-    <div class="start-50 translate-middle form-floating top-4 mb-3" [ngClass]="(innerWidth < 750)? 'w-75' : 'w-50'">
-        <input class="form-control" type="text" id="planWhat" name="planWhat" [(ngModel)]="PLAN_WHAT" />
-        <label for="floatingInput">Plan What!</label>
-    </div>
+    <!-- <fieldset class="p-2"> -->
+      <!-- <legend class="data-legend text-bg-contrast rounded-2 p-1 ps-2 pe-2"> -- </legend> -->
+      <div class="start-50 translate-middle form-floating top-4 mb-3" [ngClass]="(innerWidth < 750)? 'w-75' : 'w-50'">
+          <input class="form-control" type="text" id="planWhat" name="planWhat" [(ngModel)]="PLAN_WHAT" />
+          <label for="floatingInput">Plan What!</label>
+      </div>
 
-    <div class="start-50 translate-middle form-floating top-4 mb-3" [ngClass]="(innerWidth < 750)? 'w-75' : 'w-50'">
-        <input class="form-control" type="text" id="Amount" name="Amount" [(ngModel)]="Amount" />
-        <label for="floatingInput">Amount</label>
-    </div>
+      <div class="start-50 translate-middle form-floating top-4 mb-3" [ngClass]="(innerWidth < 750)? 'w-75' : 'w-50'">
+          <input class="form-control" type="text" id="Amount" name="Amount" [(ngModel)]="Amount" />
+          <label for="floatingInput">Amount</label>
+      </div>
 
-    <label class="d-flex justify-content-center" for="below-salary-save"> <strong> Amount for Month and Year </strong> </label>
-    <div name="below-salary-save" class="d-flex justify-content-center">
-        <select [(ngModel)]="_MONTH" name="months_dropdown" class="dropdown form-select me-1" [ngClass]="(innerWidth < 750)? 'w-50' : 'w-25'"> <!-- get Amount on Each SELECT -->
-            <option class="dropdown-item" disabled> Months </option>
-            <option class="dropdown-item" *ngFor="let value of [].constructor(12); let i=index" value="{{getAndShowMonthName(i,'name').split(' ')[0]}}">{{getAndShowMonthName(i,'name')}}</option> <!-- Bring 6 Months Previous than Current Month -->
+      <label class="d-flex justify-content-center" for="below-salary-save"> <strong> Amount for Month and Year </strong> </label>
+      <div name="below-salary-save" class="d-flex justify-content-center">
+          <select [(ngModel)]="_MONTH" name="months_dropdown" class="dropdown form-select me-1" [ngClass]="(innerWidth < 750)? 'w-50' : 'w-25'"> <!-- get Amount on Each SELECT -->
+              <option class="dropdown-item" disabled> Months </option>
+              <option class="dropdown-item" *ngFor="let value of [].constructor(12); let i=index" value="{{getAndShowMonthName(i,'name').split(' ')[0]}}">{{getAndShowMonthName(i,'name')}}</option> <!-- Bring 6 Months Previous than Current Month -->
+          </select>
+          <select [(ngModel)]="_YEAR" name="months_dropdown" class="dropdown form-select w-25 ms-1"> <!-- get Amount on Each SELECT -->
+            <option class="dropdown-item" disabled> Years </option>
+            <option class="dropdown-item" *ngFor="let value of years; let i=index" value="{{value}}">{{value}}</option> <!-- Bring 6 Months Previous than Current Month -->
         </select>
-        <select [(ngModel)]="_YEAR" name="months_dropdown" class="dropdown form-select w-25 ms-1"> <!-- get Amount on Each SELECT -->
-          <option class="dropdown-item" disabled> Years </option>
-          <option class="dropdown-item" *ngFor="let value of years; let i=index" value="{{value}}">{{value}}</option> <!-- Bring 6 Months Previous than Current Month -->
-      </select>
-    </div>
+      </div>
 
-    <!-- Save Button-->
-    <div class="d-flex justify-content-center">
-        <a class="btn btn-success mt-5 border main-btns" [ngClass]="(innerWidth < 481)? 'w-75' : ( (innerWidth > 480 && innerWidth < 750)? 'w-50': 'w-25')" title="Feature will be available soon"
-            [ngStyle] ="{ 'font-size': (innerWidth < 775)? 14+'px' : 18+'px' , 'font-weight': (innerWidth < 575)? 400 : 600 , 'padding' : 5+'px' }"
-            (click)="saveBasicAmountInfo()">
-            Save
-        </a>
+      <!-- Save Button-->
+      <div class="d-flex justify-content-center">
+          <a class="btn btn-success mt-5 border main-btns" [ngClass]="(innerWidth < 481)? 'w-75' : ( (innerWidth > 480 && innerWidth < 750)? 'w-50': 'w-25')" title="Feature will be available soon"
+              [ngStyle] ="{ 'font-size': (innerWidth < 775)? 14+'px' : 18+'px' , 'font-weight': (innerWidth < 575)? 400 : 600 , 'padding' : 5+'px' }"
+              (click)="saveBasicAmountInfo()">
+              Save
+          </a>
+      </div>
+    <!-- </fieldset> -->
+
+    <div class="d-flex justify-content-center mt-3" >
+        <p style="display: none;" #NoDataNotification (click)="hideMessage()" class="p-2 rounded fs-7 text-center ms-auto me-auto bg-gradient bg-light-danger text-white" [ngClass]="(innerWidth > 700)? 'mt-5 w-50': 'mt-2 w-75'">
+          You input data is missing.
+        </p>
     </div>
 
     <!-- Route to Creat Plan -->
     <div class="d-flex justify-content-center">
-        <a class="btn mt-5 border main-btns" [ngClass]="(innerWidth < 481)? 'w-75' : ( (innerWidth > 480 && innerWidth < 750)? 'w-50': 'w-25')" title="Feature will be available soon"
+        <a class="btn mt-1 border main-btns" [ngClass]="(innerWidth < 481)? 'w-75' : ( (innerWidth > 480 && innerWidth < 750)? 'w-50': 'w-25')" title="Feature will be available soon"
             [ngStyle] ="{ 'font-size': (innerWidth < 775)? 14+'px' : 18+'px' , 'font-weight': (innerWidth < 575)? 500 : 600 , 'padding' : 5+'px', 'background-color': '#79d279' }"
             [routerLink]="['/plan/create-plan']">
             Create a new Plan
         </a>
     </div>
 
-    <!-- Route to Update Plan -->
+    <!-- Route to Display Plan -->
     <div class="d-flex justify-content-center">
         <a class="btn mt-1 border main-btns" [ngClass]="(innerWidth < 481)? 'w-75' : ( (innerWidth > 480 && innerWidth < 750)? 'w-50': 'w-25')" title="Feature will be available soon"
             [ngStyle] ="{ 'font-size': (innerWidth < 775)? 14+'px' : 18+'px' , 'font-weight': (innerWidth < 575)? 500 : 600 , 'padding' : 5+'px', 'background-color': '#66b3ff' }"
-            [routerLink] = "['/plan/update-plan']">
-            Update Plan
+            [routerLink] = "['/plan/display-plan']">
+            View Plan
         </a>
     </div>
+
+    <hr size="2%" width="80%" style="margin: 20px auto;"/>
+
+    <!-- Route to Create Usage Plan -->
+    <div class="d-flex justify-content-center">
+        <a class="btn mt-1 border main-btns btn-outline-dark" [ngClass]="(innerWidth < 481)? 'w-75' : ( (innerWidth > 480 && innerWidth < 750)? 'w-50': 'w-25')" title="Feature will be available soon"
+            [ngStyle] ="{ 'font-size': (innerWidth < 775)? 14+'px' : 18+'px' , 'font-weight': (innerWidth < 575)? 500 : 600 , 'padding' : 5+'px', 'background-color': '#66b3ff' }"
+            [routerLink] = "['/usage/manage-plan']">
+            Create a Usage Plan
+        </a>
+    </div>
+
+
 
 </div>

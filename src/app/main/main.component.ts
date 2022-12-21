@@ -1,7 +1,7 @@
-import { Component, OnChanges, OnInit, HostListener, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnInit, HostListener, SimpleChanges, ViewChild } from '@angular/core';
 import { HelperService } from '../helperService/helper.service';
 import { HttpClient } from '@angular/common/http';
-import { throwError } from 'rxjs';
+import { empty, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -60,6 +60,10 @@ export class MainComponent implements OnChanges {
 
   Table_shown = false; /** To show Month Selection OR Not */
 
+  isDataStored: any;
+
+  @ViewChild('NoDataNotification') _no_data_notify: any;
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
       this.getScreenWidth();
@@ -69,6 +73,8 @@ export class MainComponent implements OnChanges {
   }
   constructor(public helperService: HelperService, public http: HttpClient, public router: Router) {
       this.getScreenWidth();
+      this.isDataStored = false; /** For 1st Time NOTIFY MESSAGE to HIDE */
+
       this.months.push('January', 'February', 'March', 'April','May','June' ,'July','August','September','October','November','Decemeber');
 
       let i=-1;
@@ -84,20 +90,27 @@ export class MainComponent implements OnChanges {
   }
 
     /**   -------BELOW HTTP Requests------- */
-  saveBasicAmountInfo() {
-      let url :any; let data: any;
+  saveBasicAmountInfo()
+  {
+    if(this.PLAN_WHAT == '' || this.Amount == 0 || this._MONTH == null || this._YEAR == null) {
+        this.isDataStored = false; /** For 1st Time NOTIFY MESSAGE to HIDE */
+        this._no_data_notify.nativeElement.style.display = 'flex'; /** Display NOTIFY Message */
+    } else {
+        let url :any; let data: any;
         url = 'saveBasicAmount.php';
-        data  = {
-                    'amount_type': this.PLAN_WHAT,
-                    'amount': this.Amount,
-                    'month': this._MONTH,
-                    'year': this._YEAR
-                };
+        data = {
+                  'amount_type': this.PLAN_WHAT,
+                  'amount': this.Amount,
+                  'month': this._MONTH,
+                  'year': this._YEAR
+              };
 
-      this.http.post(this.helperService.BASE_URL + url, data).subscribe((response: any) => {
-          console.log(response);
-      });
-      this.router.navigate(['/plan/create-plan']);
+        this.isDataStored = true; /** For 1st Time NOTIFY MESSAGE to HIDE */
+        this.http.post(this.helperService.BASE_URL + url, data).subscribe((response: any) => {
+            console.log(response);
+        });
+        this.router.navigate(['/plan/create-plan']);
+    }
   }
   /**   ----- ABOVE HTTP Requests ------- */
 
@@ -114,6 +127,10 @@ export class MainComponent implements OnChanges {
       } else { /** else 'name' type received, Then show month's name */
           return date.toLocaleString('default', { month: 'long'} );
       }
+  }
+
+  hideMessage() {
+    this._no_data_notify.nativeElement.style.display = 'none';
   }
 
 }

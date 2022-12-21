@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, HostListener } from '@angular/core';
-import { HelperService } from 'src/app/helperService/helper.service';
+import { HelperService } from '../../../helperService/helper.service';
+import { SharedService } from '../../../helperService/shared.service';
 
 @Component({
   selector: 'app-display',
@@ -56,7 +57,7 @@ export class PlanDisplayComponent implements OnInit {
 
   Table_shown = false; /** To show Month Selection OR Not */
 
-  constructor(public helperService: HelperService, public http: HttpClient) {
+  constructor(public helperService: HelperService, public http: HttpClient, public sharedService: SharedService) {
       this.setMostVariablesToDefault();
       this.getPlanned();
       this.getScreenWidth();
@@ -94,7 +95,7 @@ export class PlanDisplayComponent implements OnInit {
   }
   getScreenWidth() {
     this.innerWidth = window.innerWidth;
-    console.log(this.innerWidth);
+//    console.log(this.innerWidth);
   }
 
 
@@ -136,7 +137,7 @@ export class PlanDisplayComponent implements OnInit {
     return this.http.get(this.helperService.BASE_URL + 'getPlanned.php').subscribe({
         next: (response) => {
             // console.log(response);
-            console.log(response['AmountPlanner'].Planned.data);
+//            console.log(response['AmountPlanner'].Planned.data);
             this.plannedPercentages = response['AmountPlanner'].Planned.data;
 
                   /** Getting caused  */
@@ -149,16 +150,16 @@ export class PlanDisplayComponent implements OnInit {
 
   AmountAgainstPercentages() {
 
-    console.log("amountAgainstPercentages Function");
-    console.log(this.plannedPercentages);
-    console.log(this.PlannedData);
+//    console.log("amountAgainstPercentages Function");
+//    console.log(this.plannedPercentages);
+//    console.log(this.PlannedData);
     this.plannedPercentages.forEach((value:any, key:any) => {
       this.PlannedData['causes'][value['key_name']] = value['planned_percentage'];
       // this.PlannedData['causes'][value['key_name']] = Math.ceil( (( value['planned_percentage'] / 100)) * this.Amount ); /** Get Usable-amount-for-given-%es According to the month selected */
         // console.log(key + ' - => ' + value['key_name'] + ' -- ==> ' + value['planned_percentage']);
     });
-    console.log('this.PlannedData');
-    console.log(this.PlannedData['causes']);
+//    console.log('this.PlannedData');
+//    console.log(this.PlannedData['causes']);
     this.extractKeysAndValues(this.PlannedData['causes'], 'planned');
   }
 
@@ -181,6 +182,7 @@ export class PlanDisplayComponent implements OnInit {
 
   mergePecentagesWithPlannedData() {
       this.PlannedData['percentages'] = this.percentagesSeparatly;
+      this.sharedService.storePlannedPercentages(this.PlannedData['percentages']); /** Stored to share b/w components  */
   }
   mergeMonthsWithPlannedData() {
       this.PlannedData['months'] = this.monthsFromCurrent;
@@ -217,9 +219,9 @@ export class PlanDisplayComponent implements OnInit {
   /** Get Data Values and Keys */
   extractKeysAndValues(data: any, amount_type='planned') {
     this.dataValues = [];
-    console.log('plannedData \|/'); console.log(this.PlannedData);
-    console.log('dataKeys \|/'); console.log(this.dataKeys);
-    console.log('data \|/'); console.log(data);
+//    console.log('plannedData \|/'); console.log(this.PlannedData);
+//    console.log('dataKeys \|/'); console.log(this.dataKeys);
+//    console.log('data \|/'); console.log(data);
 
     if(amount_type == 'planned') {
       /** Separating Keys and Values from An array */
@@ -231,8 +233,9 @@ export class PlanDisplayComponent implements OnInit {
       });
 
     }
-    console.log(this.dataKeys);
-    console.log(this.dataValues);
+    this.sharedService.storePlannedKeys(this.dataKeys);
+//    console.log(this.dataKeys);
+//    console.log(this.dataValues);
   }
 
   createChart(type :any) {
