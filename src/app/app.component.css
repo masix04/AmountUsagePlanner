@@ -1,8 +1,8 @@
 .home-body {
-  height: 700px;
+  height: 800px;
 }
 .home-body-step-3 {
-  height: 870px;
+  height: 1100px;
 }
 .home-body-mob {
   height: max-content;
@@ -22,6 +22,9 @@
 }
 .w-30 {
   width: 30% !important;
+}
+.w-35 {
+  width: 35% !important;
 }
 
 .bg-light-danger {
@@ -65,6 +68,18 @@ cursor: default;
   cursor: default;
 }
 
+/* .temp-3-body,.temp-3-body-mob {
+  width: max-content;
+  box-shadow: rgb(189, 187, 187) 1px 3px 8px;
+  cursor: default;
+} */
+.temp-3-body-mob {
+  margin-top: 10px;
+  width: max-content;
+  box-shadow: rgb(189, 187, 187) 1px 3px 8px;
+  cursor: default;
+}
+
 .convert-table-mob {
   height: max-content;
   margin-top: 20px;
@@ -90,14 +105,18 @@ cursor: default;
 }
 .planned-table
 {
-    padding-top: 80px;
+    padding-top: 60px;
     height: max-content;
-    min-height: 600px;
+    min-height: 650px;
 }
+
+/* planned-table-mob2 {
+    padding-top: 20px;
+} */
 
 .planned-table-mob,.planned-table-tab {
   height:inherit;
-  padding-top: 80px;
+  padding-top: 30px;
 }
 .planned-table-mob {
 margin: 0 auto;
@@ -326,13 +345,35 @@ border: 1px blue solid;
   padding: 5px 10px;
   margin-left: 10px;
 }
-
 .data-fieldset .submit-data:active {
   background-color: rgb(57, 104, 57);
 }
 .data-legend {
   font-weight: 600;
 }
+
+/** Edit Form for Planned Table --STARTED-- */
+
+  .edit-fieldset .submit-data:active {
+    background-color: rgb(57, 104, 57);
+  }
+  .edit-fieldset {
+    border: 1px solid rgb(21, 124, 11);
+    border-radius: 5px;
+  }
+  .edit-fieldset select, .edit-fieldset div {
+    margin: 3px auto;
+  }
+  .edit-fieldset .submit-data, .edit-fieldset .visualize-data {
+    padding: 5px 10px;
+    margin-left: 10px;
+  }
+  .edit-legend {
+    font-weight: 600;
+  }
+
+/** Edit Form for Planned Table --ENDED-- */
+
 .used-value-item-mob span {
   padding-bottom: 3px;
   width: 50%;

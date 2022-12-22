@@ -6,12 +6,11 @@
       <span [routerLink]="['/usage/manage-spent']" title="move to Usage store" style="cursor:pointer; box-shadow:1px 2px 2px rgb(139, 153, 168);" class="mt-1 ms-1 btn btn-outline-secondary"> Store Usage </span>
   </div>
   <div class="d-flex justify-content-center">
-    <span class="fs-4 rounded p-1 temp-3-body"> My <strong> {{PLAN_WHAT}} </strong> Plan </span>
+    <span class="fs-4 rounded p-1" [ngClass]="(innerWidth > 575)? 'temp-3-body': 'temp-3-body-mob'"> My <strong> {{PLANNED_WHAT}} </strong> Plan </span>
   </div>
 
   <!--  Tables  -->
   <!-- For Tablets and Desktop-->
-  <!-- <div *ngIf="innerWidth > 990" class="w-100 row align-items-start justify-content-center planned-table"> -->
     <div *ngIf="innerWidth > 575" class="w-100 row align-items-start justify-content-center planned-table">
       <div [ngClass]="(innerWidth < 990)? 'col-4': 'col-3'" class="text-bg-light d-flex keys-list">
           <ul>
@@ -19,52 +18,32 @@
               <li *ngFor="let key of dataKeys" class="border border-end-0 border-top-0 border-primary text-capitalize mt-2 p-1" [ngClass]="(innerWidth < 1199 && innerWidth > 991)? 'fs-6' : ( (innerWidth < 991)? 'fs-7' : 'fs-5')">
                   <strong>{{key}}</strong>
               </li>
-              <li class="p-2 fs-4 text-bg-contrast text-center"><strong>#</strong></li>
+              <li class="p-2 fs-4 text-bg-contrast text-center mt-1"><strong>#</strong></li>
           </ul>
       </div>
-      <div class="col-1 text-bg-light percentage-list">
+      <div class="col-1 text-bg-light percentage-list" [ngClass]="(innerWidth < 991)? 'col-2': 'col-1'"><!---->
           <ul>
               <li class="p-2 fs-4 text-bg-contrast text-center"> <strong>%</strong> </li>
               <li *ngFor="let value of dataValues" class="border border-top-0 border-primary text-center mt-2 p-1" [ngClass]="(innerWidth < 1199 && innerWidth > 991)? 'fs-6' : ( (innerWidth < 991)? 'fs-7' : 'fs-5')">{{value}}</li>
-              <li class="p-2 fs-4 text-bg-contrast text-center"><strong>%</strong></li>
+              <li class="p-2 fs-4 text-bg-contrast text-center mt-1"><strong>%</strong></li>
           </ul>
       </div>
+      <div class="col-1 text-bg-light percentage-list" [ngClass]="(innerWidth < 991)? 'col-2': 'col-1'">
+        <ul>
+          <li class="p-2 fs-4 text-bg-contrast text-center rounded-right"> <strong>.</strong> </li>
+          <li *ngFor="let value of dataValues; let i=index" (click)="editItem(i, value)" class="btn border bg-gradient shadow border-top-0 border-primary btn-success mt-2 ms-2 me-2 pt-1 pb-1 " [ngClass]="(innerWidth < 1199 && innerWidth > 991)? 'fs-6 ps-3 pe-3' : ( (innerWidth < 991)? 'fs-7 ps-4 pe-4 ms-3 me-3' : 'fs-5 ps-4 pe-4')"> Edit </li>
+          <!-- <li style="display:none;" *ngFor="let value of dataValues" [(ngModel)]="_EDIT_ITEM_VALUE" class="btn border bg-gradient shadow border-top-0 border-primary btn-success mt-2 ms-2 me-2 pt-1 pb-1 " [ngClass]="(innerWidth < 1199 && innerWidth > 991)? 'fs-6 ps-3 pe-3' : ( (innerWidth < 991)? 'fs-7 ps-4 pe-4 ms-3 me-3' : 'fs-5 ps-4 pe-4')"> Edit </li> -->
+          <li class="p-2 fs-4 text-bg-contrast text-center rounded-right m t-1"> <strong>.</strong> </li>
+        </ul>
+      </div>
       <!-- <span class="remain-not-spend bottom-0 start-50 position-absolute translate-middle" >Remaining Amount: <strong> {{remainAmount}} Rs </strong>with <strong>{{remainPercentage}} % </strong></span> -->
-  </div>
-  <p> CHart is going to Show too.</p>
+    </div>
+
+  <!-- <p> CHart is going to Show too.</p> -->
+
   <!-- IN PROGRESS ---   -->
   <!-- For Tablets -->
-  <!-- <div *ngIf="innerWidth > 575 && innerWidth < 991" class="w-100 row planned-table-tab"> -->
 
-     <!-- Width = 30% -->
-    <!-- <ul class="text-bg-light keys-list-tab">
-        <li class="p-2 fs-6 text-bg-contrast text-center"><strong>#</strong></li>
-        <li *ngFor="let key of dataKeys" class="border border-top-0 border-primary text-capitalize mt-2 p-1 key-item-tab">
-            <strong>{{key}}</strong>
-        </li>
-        <li class="p-2 fs-6 text-bg-contrast text-center"><strong>#</strong></li>
-    </ul> -->
-
-    <!-- width = 70% -->
-    <!-- <ul class="values-list-tab">
-        <li class="p-2 fs-6 text-bg-contrast month-item-tab text-center">
-            <strong>{{monthsFromCurrent[0]}}</strong>
-        </li>
-        <li class="p-2 fs-6 text-bg-contrast month-item-tab text-center">
-            <strong>{{monthsFromCurrent[1]}}</strong>
-        </li>
-        <li *ngFor="let value of dataValues" class="border border-top-0 border-primary text-center mt-2 p-1 value-item-tab">
-            {{value.used}} Rs
-        </li>
-        <li class="p-2 text-bg-contrast ht-40"></li>
-    </ul> -->
-
-    <!-- Hidden Percentage List - not necessory Data -->
-    <!-- <span class="remain-not-spend position-absolute translate-middle bottom-0 start-50">Remaining Amount: <strong> {{remainAmount}} Rs </strong>with <strong>{{remainPercentage}} % </strong></span> -->
-
-<!-- </div> -->
-
-<!--  Used Amount changer   => 1)- in Percentage  2)- in Rupees  -->
 <!--  For MOBILE  -->
 <!-- <div *ngIf="innerWidth < 576 && visualizeTable == true" class="convert-table-mob">
   <strong *ngIf="percent_display_selected == true" class="convert-transition" (click)="displayTableData_Percentages()"> % </strong>
@@ -80,17 +59,58 @@
           <li *ngFor="let key of dataKeys" class="border border-top-0 border-primary text-capitalize mt-3 p-1 key-item-mob">
               <strong>{{key}}</strong>
           </li>
-          <li class="p-2 fs-6 text-bg-contrast text-center"><strong>#</strong></li>
+          <li class="p-2 fs-6 text-bg-contrast text-center mt-1"><strong>#</strong></li>
       </ul>
-      <ul class="text-bg-light keys-list-mob w-50">
+      <ul class="text-bg-light keys-list-mob w-35">
           <li class="p-2 fs-6 text-bg-contrast text-center"> <strong>%</strong> </li>
           <li *ngFor="let value of dataValues" class="border border-top-0 border-primary text-center p-1 ext-m-10" [ngClass]="(innerWidth < 1199 && innerWidth > 991)? 'fs-5' : ( (innerWidth < 991)? 'fs-6' : 'fs-4')">{{value}}</li>
-          <li class="p-2 fs-6 text-bg-contrast text-center"><strong>%</strong></li>
+          <li class="p-2 fs-6 text-bg-contrast text-center mt-1"><strong>%</strong></li>
       </ul>
-      <p> CHart is going to Show too.</p>
+      <ul class="text-bg-light keys-list-mob w-15">
+          <li class="p-2 fs-6 text-bg-contrast text-center rounded-right"> <strong>.</strong> </li>
+          <li *ngFor="let value of dataValues; let i=index" (click)="editItem(i, value)" class="btn border bg-gradient shadow border-top-0 border-primary btn-success mt-2 ms-2 me-2 pt-1 pb-1 ps-2 pe-2 ext-m-10" > Edit </li><!-- [ngClass]="(innerWidth < 576 && innerWidth > 991)? 'fs-6 ps-3 pe-3' : ( (innerWidth < 991)? 'fs-7 ps-4 pe-4 ms-3 me-3' : 'fs-5 ps-4 pe-4')"-->
+          <li class="p-2 fs-6 text-bg-contrast text-center rounded-right mt-1"> <strong>.</strong> </li>
+      </ul>
+      <!-- <div *ngIf="visualizeChart == true; else elseTemplate">
+        <canvas id="goodCanvas1" width="400" height="100" aria-label="Hello ARIA World" role="img">
+          <p>Chart creating using Canvas</p>
+        </canvas>
+      </div> -->
+
+  </div>
+
+  <!-- Edit Space -->
+  <div class="text-center mt-5 mb-3" [ngClass]="(innerWidth > 991)? 'pt-5': ''">
+    <fieldset class="edit-fieldset m-auto" [ngClass]="(innerWidth < 800)? 'w-100': 'w-75'">
+        <legend class="data-legend text-bg-contrast rounded-2 p-1 ps-2 pe-2"> Edit Selection </legend>
+        <!-- DESKTOP -->
+        <div *ngIf="(innerWidth > 991)" name="below-salary-save" class="d-flex justify-content-center mb-2">
+          <label class="border rounded pt-1 ps-2 pe-2 me-1" ><strong> Plan Item: </strong></label> <input type="text" #ITEM name="item" [(ngModel)]="_ITEM" class="form-control me-1" value="{{edit_item}}" [ngClass]="(innerWidth < 750)? 'w-50' : 'w-25'" /> <!-- get Amount on Each SELECT -->
+          <label class="border rounded pt-1 ps-2 pe-2" ><strong> Percentage: </strong></label> <input type="text" #ITEM_PERCENTAGE name="item_percentage" [(ngModel)]="_ITEM_PERCENTAGE" value="{{edit_item_value}}" class="form-control w-25 ms-1" /> <!-- get Amount on Each SELECT -->
+        </div>
+        <!-- TABLET -->
+        <div *ngIf="(innerWidth > 479 && innerWidth < 991)" name="below-salary-save" class="justify-content-center mb-2">
+          <label class="border rounded p-1 mt-1 mb-1 me-1" ><strong> Plan Item: </strong></label>
+          <input type="text" #ITEM name="item" [(ngModel)]="_ITEM" class="form-control w-75 me-auto ms-auto" value="{{edit_item}}" /> <!-- get Amount on Each SELECT -->
+          <label class="border rounded p-1 mt-1 mb-1" ><strong> Percentage: </strong></label>
+          <input type="text" #ITEM_PERCENTAGE name="item_percentage" [(ngModel)]="_ITEM_PERCENTAGE" value="{{edit_item_value}}" class="form-control w-75 me-auto ms-auto" /> <!-- get Amount on Each SELECT -->
+        </div>
+        <!-- MOBILE -->
+        <div *ngIf="(innerWidth < 480)" name="below-salary-save" class="justify-content-center mb-2">
+          <label class="border rounded p-1 me-1 mt-2 mb-2" ><strong> Plan Item: </strong></label>
+          <input type="text" #ITEM name="item" [(ngModel)]="_ITEM" class="form-control me-1" value="{{edit_item}}" /> <!-- get Amount on Each SELECT -->
+          <label class="border rounded p-1 mt-2 mb-2" ><strong> Percentage: </strong></label>
+          <input type="text" #ITEM_PERCENTAGE name="item_percentage" [(ngModel)]="_ITEM_PERCENTAGE" value="{{edit_item_value}}" class="form-control ms-1" /> <!-- get Amount on Each SELECT -->
+        </div>
+        <button class="submit-data btn btn-success border" (click)="UpdateData()"> Update </button>
+    </fieldset>
   </div>
 
 </div>
+
+<p *ngIf="isBelow100 == false" class="p-2 rounded fs-7 text-center ms-auto me-auto bg-gradient bg-light-danger text-white" [ngClass]="(innerWidth > 700)? 'mt-5 w-50': 'mt-2 w-75'">
+  Your Plan percentage Reached <strong> 100 %.</strong>.
+</p>
 
 <!--  Waiting Else Template -->
 <ng-template #elseTemplate class="home-body">

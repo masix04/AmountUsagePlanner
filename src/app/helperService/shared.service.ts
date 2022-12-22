@@ -10,19 +10,20 @@ export class SharedService {
   private plannedPercentages = new BehaviorSubject<any>(null);
   private monthsData = new BehaviorSubject<any>(null);
   private yearsData = new BehaviorSubject<any>(null);
+  private planWhat = new BehaviorSubject<any>(null);
 
   constructor() { }
 
   storePlannedKeys(keys: any) {
       this.plannedKeys.next(keys);
 //      console.log(keys);
-      console.log(this.plannedKeys.value);
+      // console.log(this.plannedKeys.value);
       localStorage.setItem('plannedKeys', this.plannedKeys.value);
   }
   storePlannedPercentages(percentages: any) {
       this.plannedPercentages.next(percentages);
 //      console.log(percentages);
-      console.log(this.plannedPercentages.value);
+      // console.log(this.plannedPercentages.value);
       localStorage.setItem('plannedpercentages', this.plannedPercentages.value);
   }
   saveMonths(months: any)
@@ -34,6 +35,10 @@ export class SharedService {
   {
       this.yearsData.next(years);
       localStorage.setItem('saveYears', this.yearsData.value);
+  }
+  savePlanWhat(what: any) {
+      this.planWhat.next(what);
+      localStorage.setItem('planWhat', this.planWhat.value);
   }
 
   getPlannedKeys() {
@@ -48,5 +53,8 @@ export class SharedService {
   }
   getSavedYears() {
     return localStorage.getItem('saveYears') || this.yearsData;
+  }
+  getPlanWhat() {
+    return localStorage.getItem('planWhat') || this.planWhat;
   }
 }

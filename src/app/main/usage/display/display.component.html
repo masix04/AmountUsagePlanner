@@ -5,7 +5,7 @@
       <span [routerLink]="['/usage/manage-spent']" title="Back to Manage Plan" style="cursor:pointer;" class="mt-1 ms-1 border rounded p-1"> Manage <img class="back-arrow" src="/assets/images/back-arrow-solid-32.png" /></span>
   </div>
   <div class="d-flex justify-content-center">
-    <span class="fs-4 rounded p-1 temp-3-body"> My Spents </span>
+    <span class="fs-4 rounded p-1 temp-3-body"> My <strong> {{PLANNED_WHAT}} </strong> Spents </span>
   </div>
   <div class="text-center mt-5">
     <fieldset class="data-fieldset m-auto" [ngClass]="(innerWidth < 800)? 'w-100': 'w-75'">
@@ -170,7 +170,7 @@
 <ng-template #elseTemplate class="home-body">
   Loading
 </ng-template>
-<ng-template #NoDataNotification (click)="hideMessage()">
+<ng-template #NoDataNotification>
     <p class="p-2 rounded fs-7 text-center ms-auto me-auto bg-gradient bg-light-danger text-white" [ngClass]="(innerWidth > 700)? 'mt-5 w-50': 'mt-2 w-75'" *ngIf="isStart == false">
       You have not added usage for <strong> this Month </strong>.
     </p>

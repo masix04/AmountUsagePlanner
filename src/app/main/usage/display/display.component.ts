@@ -9,6 +9,8 @@ import { SharedService } from '../../../helperService/shared.service';
 })
 export class UsageDisplayComponent implements OnInit {
 
+  PLANNED_WHAT: any;
+
   CHART_DATA: any;
   usedData: any;
   usedSeparatly: any;
@@ -53,7 +55,9 @@ export class UsageDisplayComponent implements OnInit {
     this.dataKeys = [];
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.PLANNED_WHAT = this.sharedService.getPlanWhat();
+  }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {

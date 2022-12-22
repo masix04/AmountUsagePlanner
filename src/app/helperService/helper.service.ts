@@ -31,4 +31,9 @@ export class HelperService {
       let url = this.BASE_URL + 'getUsed.php';
       return this.http.post(url, data);
     }
+
+    editPlanData(data: any) {
+      let url = this.BASE_URL + 'editPlan.php';
+      return this.http.post(url, data);
+    }
 }

@@ -3,6 +3,7 @@ import { HelperService } from '../helperService/helper.service';
 import { HttpClient } from '@angular/common/http';
 import { empty, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { SharedService } from '../helperService/shared.service';
 
 @Component({
   selector: 'app-main',
@@ -71,7 +72,7 @@ export class MainComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
   //   this.createAPlan();
   }
-  constructor(public helperService: HelperService, public http: HttpClient, public router: Router) {
+  constructor(public helperService: HelperService, public http: HttpClient, public router: Router, public sharedService: SharedService) {
       this.getScreenWidth();
       this.isDataStored = false; /** For 1st Time NOTIFY MESSAGE to HIDE */
 
@@ -105,6 +106,7 @@ export class MainComponent implements OnChanges {
                   'year': this._YEAR
               };
 
+        this.sharedService.savePlanWhat(this.PLAN_WHAT); /** Saved PlanWhat */
         this.isDataStored = true; /** For 1st Time NOTIFY MESSAGE to HIDE */
         this.http.post(this.helperService.BASE_URL + url, data).subscribe((response: any) => {
             console.log(response);

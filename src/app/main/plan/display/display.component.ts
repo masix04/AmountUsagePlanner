@@ -1,7 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { HelperService } from '../../../helperService/helper.service';
 import { SharedService } from '../../../helperService/shared.service';
+
+// import { Colors } from 'chart.js';
+// import { Chart } from 'chart.js/dist';
+
+// Chart.register(Colors);
 
 @Component({
   selector: 'app-display',
@@ -11,7 +16,7 @@ import { SharedService } from '../../../helperService/shared.service';
 export class PlanDisplayComponent implements OnInit {
 
   title = 'amount-usage-planner';
-  PLAN_WHAT = '';
+  PLANNED_WHAT: any;
   Amount = 0;
 
   _DATE = new Date();
@@ -39,7 +44,6 @@ export class PlanDisplayComponent implements OnInit {
   KEY_SELECTED: any;
   SPENT_AMOUNT: any;
 
-  visualizeChart = false;
   visualizeTable = false;
   planVisualizeTable = true;
 
@@ -56,15 +60,51 @@ export class PlanDisplayComponent implements OnInit {
   CHART_DATA: any;
 
   Table_shown = false; /** To show Month Selection OR Not */
+  visualizeChart: any;
+
+  edit_item: any;
+  edit_item_id: any;
+  edit_item_value: any;
+
+  _ITEM: any;
+  _ITEM_PERCENTAGE: any;
+
+  @ViewChild('ITEM') _selected_item: any;
+  @ViewChild('ITEM_PERCENTAGE') _selected_item_value: any;
+
+  isBelow100: any;
 
   constructor(public helperService: HelperService, public http: HttpClient, public sharedService: SharedService) {
       this.setMostVariablesToDefault();
       this.getPlanned();
       this.getScreenWidth();
+      this.visualizeChart = true;
   }
 
   ngOnInit() {
+    this.PLANNED_WHAT = this.sharedService.getPlanWhat();
+    console.log(this.PLANNED_WHAT);
   }
+
+  // createChart() {
+  //   this.CHART_DATA = {
+  //     labels: ['A', 'B', 'C'],
+  //     datasets: [
+  //       {
+  //         label: 'Dataset 1',
+  //         data: [1, 2, 3],
+  //         borderColor: '#36A2EB',
+  //         backgroundColor: '#9BD0F5',
+  //       },
+  //       {
+  //         label: 'Dataset 2',
+  //         data: [2, 3, 4],
+  //         borderColor: '#FF6384',
+  //         backgroundColor: '#FFB1C1',
+  //       }
+  //     ]
+  //   };
+  // }
 
   setMostVariablesToDefault() {
       this.step = 1;
@@ -188,6 +228,61 @@ export class PlanDisplayComponent implements OnInit {
       this.PlannedData['months'] = this.monthsFromCurrent;
   }
 
+  getPercentageSUMBeforeSendEditRequestToServer() {
+    /** Check Already Created Plan percentage */
+    let Sum = 0;
+    this.dataValues.forEach((value) => {
+        Sum = Sum + parseInt(value);
+    });
+    // console.log(Sum);
+
+    /** Check After Tried to Update Plan Percentage */
+    let minusPercentage: any = this.dataValues.filter((value, key) => {
+      return (key == this.edit_item_id)? parseInt(value): 0;
+    });
+    // console.log(minusPercentage);
+    // console.log(Sum - minusPercentage + this.edit_item_value);
+
+    let newTotalPercentageWhichIsGoingInUpdateProcess = Sum - minusPercentage + this.edit_item_value;
+    if( ( newTotalPercentageWhichIsGoingInUpdateProcess ) > 100 ) {
+        console.log('Plan is already Completed with 100%; Go through Complete Plan to Make Room for More Items.');
+        return false;
+    }
+    else {
+        return true;
+    }
+  }
+
+  editItem(item: any, value: any) {
+    this.edit_item_id = item;
+    // console.log(value);
+    this.edit_item_value = parseInt(value);
+    this.edit_item = this.dataKeys.filter((value, key) => {
+        return (key == item)? value: '';
+    });
+    // console.log(this.edit_item_value);
+  }
+
+  UpdateData() {
+      let data = {
+        'id': (this.edit_item_id+1),
+        'key_name': this._ITEM || this.edit_item[0],
+        'value': this._ITEM_PERCENTAGE || this.edit_item_value,
+      };
+
+      let checkIsBelow100Percent = this.getPercentageSUMBeforeSendEditRequestToServer();
+      if(checkIsBelow100Percent == true) {
+        this.isBelow100 = true;
+        this.helperService.editPlanData(data).subscribe({
+            next: (response) => console.log(response),
+            error: (error) => console.log(error),
+        });
+      } else {
+        this.isBelow100 = false;
+      }
+
+  }
+
   fillChartData(data :any, type: any) {
 
       if(type == 'category') {
@@ -238,52 +333,52 @@ export class PlanDisplayComponent implements OnInit {
 //    console.log(this.dataValues);
   }
 
-  createChart(type :any) {
+  // createChart(type :any) {
 
-    /** Get Used Data first  */
-    /** GET USED means Here - get Used Data Again
-     *        CASE => If user adds an item and then checks what Used PLAN has been developed So need to get from DB Again for recent Data Addition
-    */
-      /** Fill chart according to requirement => eg: If planned then only show Planned Chart */
-      this.fillChart();
+  //   /** Get Used Data first  */
+  //   /** GET USED means Here - get Used Data Again
+  //    *        CASE => If user adds an item and then checks what Used PLAN has been developed So need to get from DB Again for recent Data Addition
+  //   */
+  //     /** Fill chart according to requirement => eg: If planned then only show Planned Chart */
+  //     this.fillChart();
 
-     /** Dynamic Chart  */
-     this.dataSource = {
-      chart: {
-        "caption": "My "+this.PLAN_WHAT+" Usage Planner",
-        "subCaption": "Personal-E-Collection",
-        "xAxisname": "Purpose chunks",
-        "yAxisName": "Amount (In PKR)", /** Can be change in Future */
-        // "numberPrefix": "",
-        "exportenabled": "1",
-        "theme": "fusion"
-      },
-      "categories": [
-        {
-          "category": this.CHART_DATA['category']
-        }
-      ],
-      "dataset": [
-        {
-          "seriesName": "Planned Amount",
-          "data": this.CHART_DATA['planned_data']
-        },
-        {
-          "seriesName": "Amount Used",
-          "renderAs": "line",
-          "data": this.CHART_DATA['used_data']
-        },
-        {
-          "seriesName": "Remaining Amount",
-          "renderAs": "area",
-          "showAnchors" : "0",
-          "data": this.CHART_DATA['remaining_data']
-        }
-      ]
-      // data: this.plannedPercentages
-    };
-    // console.log(this.dataSource);
-  }
+  //    /** Dynamic Chart  */
+  //    this.dataSource = {
+  //     chart: {
+  //       "caption": "My "+this.PLAN_WHAT+" Usage Planner",
+  //       "subCaption": "Personal-E-Collection",
+  //       "xAxisname": "Purpose chunks",
+  //       "yAxisName": "Amount (In PKR)", /** Can be change in Future */
+  //       // "numberPrefix": "",
+  //       "exportenabled": "1",
+  //       "theme": "fusion"
+  //     },
+  //     "categories": [
+  //       {
+  //         "category": this.CHART_DATA['category']
+  //       }
+  //     ],
+  //     "dataset": [
+  //       {
+  //         "seriesName": "Planned Amount",
+  //         "data": this.CHART_DATA['planned_data']
+  //       },
+  //       {
+  //         "seriesName": "Amount Used",
+  //         "renderAs": "line",
+  //         "data": this.CHART_DATA['used_data']
+  //       },
+  //       {
+  //         "seriesName": "Remaining Amount",
+  //         "renderAs": "area",
+  //         "showAnchors" : "0",
+  //         "data": this.CHART_DATA['remaining_data']
+  //       }
+  //     ]
+  //     // data: this.plannedPercentages
+  //   };
+  //   // console.log(this.dataSource);
+  // }
 
   fillChart() {
       /** This should be here, not in FillCHART Data  */
